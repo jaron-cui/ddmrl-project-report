@@ -24,6 +24,18 @@ The expected contributions of the project include:
 ## Lemon pickup policy {Alex}
 ## Lemon/lime sorting (left/right) {Alex/Jaron}
 ## Lemon/lime sorting (aruco) {Jaron}
+The first sorting policy is visually conditioned to direct an object to a set relative location (left/right). An interesting alternative is where the sorting destination is not fixed. Rather than sorting lemons and limes into the left and right bowls, respectively, lemons and limes are more flexibly sorted into corresponding labeled bowls. Picture 'lemon' and 'lime' signs affixed to each bowl.
+
+Two problems with the implementation of this task are that 1: It appears to require double the training data as the previous version, as we now need to demonstrate sorting each fruit into the other bowl, and 2: There are still significant inflexibilities - what if we need to make modifications to the labels we select for lemons and limes, or would also like to sort oranges?
+
+### Tailored Image Augmentations
+We suggest that the increased training data acquisition may be avoided by using targeted image augmentations.
+The training demonstrations can be performed such that we are able to substitute the labels and the sorted item after-the-fact using image processing operations.
+
+From these "generic" demonstrations, we can produce demonstrations of sorting lemons by changing the sign on the destination bowl to appear as the lemon label and color-shifting the held fruit to resemble a lemon. We can likewise produce demonstrations of sorting limes by changing the sign to the lime label and color-shifting the held fruit to resemble a lime.
+
+To facilitate label substitution, the physical labels used while taking training demonstrations are ARUCO fiducials. The held item is always a lemon, and during demonstration is placed into either the left or right bowl. The same ARUCO marker is always placed on the bowl in which the lemon is placed. With this procedure, lemon-sorting demonstrations can be produced by drawing the lemon label atop the ARUCO marker, and lime-sorting demonstrations can be produced by inserting the lime label and color-shifting the lemon.
+
 ## Encoding-based alignment {Jaron}
 ## DynaMem-based alignment {Akshat}
 ## Navigation {Akshat}
