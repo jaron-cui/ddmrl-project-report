@@ -23,7 +23,7 @@ The expected contributions of the project include:
 ## Describe initial ideation stage (cups/cabinet stuff) {Alex}
 ## Lemon pickup policy {Alex}
 ## Lemon/lime sorting (left/right) {Alex/Jaron}
-## Lemon/lime sorting (aruco) {Jaron}
+## Lemon/Lime Sorting with Labeled Bowls {Jaron}
 The first sorting policy is visually conditioned to direct an object to a set relative location (left/right). An interesting alternative is where the sorting destination is not fixed. Rather than sorting lemons and limes into the left and right bowls, respectively, lemons and limes are more flexibly sorted into corresponding labeled bowls. Picture 'lemon' and 'lime' signs affixed to each bowl.
 
 Two problems with the implementation of this task are that 1: It appears to require double the training data as the previous version, as we now need to demonstrate sorting each fruit into the other bowl, and 2: There are still significant inflexibilities - what if we need to make modifications to the labels we select for lemons and limes, or would also like to sort oranges?
