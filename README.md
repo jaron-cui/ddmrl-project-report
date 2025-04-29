@@ -3,6 +3,11 @@
 TODO: <Flowcharts/graphs>
 Robot Utility Models are... <brief and concise description of RUMs>
 
+Robot Utility Models are 
+
+![Rum Policy](images/rum.png)
+
+
 ## Project Objectives
 Robot Utility Models are able to complete individual short-term tasks by cloning expert demonstrations. We seek to investigate and expand the capabilities they provide in regards to multimodality and task complexity.
 
@@ -40,6 +45,10 @@ To facilitate label substitution, the physical labels used while taking training
 ## DynaMem-based alignment {Akshat}
 ## Navigation {Akshat}
 ## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
+
+![Training and Deployment](images/training-an-deployment.png)
+
+
 ## Data collection {Jaron}
 ## Training {Furkan}
 
