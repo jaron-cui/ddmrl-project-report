@@ -41,34 +41,44 @@ To facilitate label substitution, the physical labels used while taking training
 ## Navigation {Akshat}
 ## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
 
-![Training and Deployment](images/training-and-deployment.png)
+<figure style="text-align: center;">
+  <img src="images/training-and-deployment.png" alt="Training and Deployment">
+  <figcaption>Figure 1: Training and Deployment</figcaption>
+</figure>
 
 In the 1st step we collected videos for for picking up the lemons, sorting the lemons, and sorting the limes in different environments. 
 
 An example of the video for picking up the lemon and sorting the lemon be seen in the pictures below. 
 
-<p align="center">
-  <img src="images/lemon-pickup-frames/frame-1.png" width="100">
-  <img src="images/lemon-pickup-frames/frame-2.png" width="100">
-  <img src="images/lemon-pickup-frames/frame-3.png" width="100">
-  <img src="images/lemon-pickup-frames/frame-4.png" width="100">
-  <img src="images/lemon-pickup-frames/frame-5.png" width="100">
+<figure style="text-align: center;">
+  <img src="images/lemon-pickup-frames/frame-1.png" width="150">
+  <img src="images/lemon-pickup-frames/frame-2.png" width="150">
+  <img src="images/lemon-pickup-frames/frame-3.png" width="150">
+  <img src="images/lemon-pickup-frames/frame-4.png" width="150">
+  <img src="images/lemon-pickup-frames/frame-5.png" width="150">
+  <figcaption>Figure 2: Lemon Pick Up</figcaption>
+</figure>
+
+<figure style="text-align: center;">
+  <img src="images/lemon-sorting-frames/frame-1.png" width="150">
+  <img src="images/lemon-sorting-frames/frame-2.png" width="150">
+  <img src="images/lemon-sorting-frames/frame-3.png" width="150">
+  <img src="images/lemon-sorting-frames/frame-4.png" width="150">
+  <img src="images/lemon-sorting-frames/frame-5.png" width="150">
+  <figcaption>Figure 3: Lemon Sorting</figcaption>
 </p>
 
-<p align="center">
-  <img src="images/lemon-sorting-frames/frame-1.png" width="100">
-  <img src="images/lemon-sorting-frames/frame-2.png" width="100">
-  <img src="images/lemon-sorting-frames/frame-3.png" width="100">
-  <img src="images/lemon-sorting-frames/frame-4.png" width="100">
-  <img src="images/lemon-sorting-frames/frame-5.png" width="100">
-</p>
 
 
 ## Data collection {Jaron}
 
 ## Training {Furkan}
 
-![Rum Training](images/rum.png)
+<figure style="text-align: center;">
+  <img src="images/rum.png" alt="Rum Training">
+  <figcaption>Figure 4: Rum Training</figcaption>
+</figure>
+
 
 # Results/Conclusions
 ## Recap successes/failures of individual experiments/ideas + analysis
