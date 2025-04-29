@@ -45,6 +45,9 @@ For example, suppose the robot is instructed to pick up a lemon and place it in 
 We attempt to devise an implementation of the alignment function that does not require additional data collection and can be run locally on the robot.
 
 ### Demonstration
+<p align="center">
+  <img src="images\alignment\alignment-demo.gif" alt="Encoding-based Alignment Demo" height="400vh"/>
+</p>
 
 ### Implementation
 Our image encoding-based alignment strategy is as follows:
@@ -67,6 +70,8 @@ The selected angle was chosen after scoring each frame and then performing the b
   <img src="images\alignment\raw-scores.png" alt="Raw frame scores" height="250vh"/>
   <img src="images\alignment\binned-scores.png" alt="Binned scores" height="250vh"/>
 </p>
+
+The encoder choice and methodology were chosen after experimenting with multiple options. A standalone repository containing the experimental code is located at https://github.com/jaron-cui/camera-frame-alignment.
 
 ## DynaMem-based alignment {Akshat}
 ## Navigation {Akshat}
