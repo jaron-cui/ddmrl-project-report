@@ -56,17 +56,18 @@ We use the pretrained dino-vits16 image encoder to encode the reference and scan
 
 During a scan, images and the angles at which they were taken are recorded in a buffer class. Then, the images are encoded and scored by their cosine similarity to the references. The angle selection process involves binning the closest matches at small angle increments and selecting the bin with the highest match rate (normalized to account for variable reading density).
 
-Below is an example of a 360° scan that passes over a lemon:
-![Example of a scanning video](images\alignment\lab-scan-lemon.gif)
+An example of a 360° scan that passes over a lemon and the frame taken at the scan angle closest to the selected angle of 315°.
+<p align="center">
+  <img src="images\alignment\lab-scan-lemon.gif" alt="Example of a scanning video" height="250vh"/>
+  <img src="images\alignment\nearest-scan-frame.png" alt="Nearest scan frame" height="250vh"/>
+</p>
 
-Using reference representations extracted from the lemon pickup dataset, the following raw scores for each frame are as follows:
-![Raw frame scores](images\alignment\raw-scores.png)
+The selected angle was chosen after scoring each frame and then performing the binning procedure.
+<p align="center">
+  <img src="images\alignment\raw-scores.png" alt="Raw frame scores" height="250vh"/>
+  <img src="images\alignment\binned-scores.png" alt="Binned scores" height="250vh"/>
+</p>
 
-After the binning procedure, we produce scores for each angle increment out of 360°:
-![Binned scores](images\alignment\binned-scores.png)
-
-And the frame taken at the scan angle closest to the final selected angle at 315° is:
-![Binned scores](images\alignment\nearest-scan-frame.png)
 ## DynaMem-based alignment {Akshat}
 ## Navigation {Akshat}
 ## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
