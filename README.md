@@ -118,6 +118,17 @@ An example of the video for picking up the lemon and sorting the lemon be seen i
 
 ## Training {Furkan}
 
+After the videos are collected, they are compressed, and translation (linear movement of the robot's gripper), rotation (how the gripper is rotated in space relative to a reference frame), gripper values (representing how open or closed the gripper is while holding a lemon or lime) that were collected during the video recording are extracted. 
+
+### Stage 1. Action Tokenization
+
+The translation, rotation, and gripper values extracted from each frame in each video are used as actions. When we want to perform a certain task, there are often multiple ways to do it. Transformer-based models are very good at capturing this multi-modality and associating different and relevant parts of the input with each other. However, transformer-based models usually work with discrete data. To train a language model, for instance, the text is split into discrete units named tokens, these tokens are converted into embedding vectors to represent each token with a vector (list of numbers), and these embedding vectors are transformed further with another linear layer. In our case, the action values are all continuous. So, to make these continuous actions compatible with a transformer model, we need to tokenize them. 
+
+There are different ways to do this. One way is to simply use K-Means clustering to cluster the continous actions and treat each cluster as a discrete unit/token. However,this method is inefficient for high dimensional action spaces. It doesn't scale well for long action sequences. It lacks gradient information and it struggles with modeling long range dependencies in action sequences In addition, K-Means create hard boundaries between clusters. []
+
+### Stage 2. Learning VQ-BeT
+
+
 <p align="center">
   <img src="images/rum.png" alt="Rum Training" />
 </p>
