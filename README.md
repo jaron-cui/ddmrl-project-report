@@ -46,9 +46,9 @@ To facilitate label substitution, the physical labels used while taking training
 
 ## Data collection {Jaron}
 
-![Rum Training](images/rum.png)
-
 ## Training {Furkan}
+
+![Rum Training](images/rum.png)
 
 # Results/Conclusions
 ## Recap successes/failures of individual experiments/ideas + analysis
