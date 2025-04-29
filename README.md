@@ -43,9 +43,9 @@ To facilitate label substitution, the physical labels used while taking training
 
 ![Training and Deployment](images/training-and-deployment.png)
 
-In the 1st step we collected videos for for picking up the lemons and sorting the lemons and limes in different environments. 
+In the 1st step we collected videos for for picking up the lemons, sorting the lemons, and sorting the limes in different environments. 
 
-An example of the video for picking up the lemon can be seen in the picture below. 
+An example of the video for picking up the lemon and sorting the lemon be seen in the pictures below. 
 
 <p align="center">
   <img src="images/lemon-pickup-frames/frame-1.png" width="100">
@@ -54,6 +54,15 @@ An example of the video for picking up the lemon can be seen in the picture belo
   <img src="images/lemon-pickup-frames/frame-4.png" width="100">
   <img src="images/lemon-pickup-frames/frame-5.png" width="100">
 </p>
+
+<p align="center">
+  <img src="images/lemon-sorting-frames/frame-1.png" width="100">
+  <img src="images/lemon-sorting-frames/frame-2.png" width="100">
+  <img src="images/lemon-sorting-frames/frame-3.png" width="100">
+  <img src="images/lemon-sorting-frames/frame-4.png" width="100">
+  <img src="images/lemon-sorting-frames/frame-5.png" width="100">
+</p>
+
 
 ## Data collection {Jaron}
 
