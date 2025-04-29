@@ -116,6 +116,14 @@ An example of the video for picking up the lemon and sorting the lemon be seen i
 
 ## Data collection {Jaron}
 
+<p align="center">
+  <img src="images/rum.png" alt="Rum Training" />
+</p>
+
+<p align="center">
+  Figure 4: Rum Training
+</p>
+
 ## Training {Furkan}
 
 After the videos are collected, they are compressed, and translation (linear movement of the robot's gripper), rotation (how the gripper is rotated in space relative to a reference frame), gripper values (representing how open or closed the gripper is while holding a lemon or lime) that were collected during the video recording are extracted. 
@@ -128,14 +136,6 @@ There are different ways to do this. One way is to simply use K-Means clustering
 
 ### Stage 2. Learning VQ-BeT
 
-
-<p align="center">
-  <img src="images/rum.png" alt="Rum Training" />
-</p>
-
-<p align="center">
-  Figure 4: Rum Training
-</p>
 
 # Results/Conclusions
 ## Recap successes/failures of individual experiments/ideas + analysis
