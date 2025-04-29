@@ -116,6 +116,9 @@ An example of the video for picking up the lemon and sorting the lemon be seen i
 
 ## Data collection {Jaron}
 
+## Training {Furkan}
+
+
 <p align="center">
   <img src="images/rum.png" alt="Rum Training" />
 </p>
@@ -124,7 +127,6 @@ An example of the video for picking up the lemon and sorting the lemon be seen i
   Figure 4: Rum Training
 </p>
 
-## Training {Furkan}
 
 After the videos are collected, they are compressed, and translation (linear movement of the robot's gripper), rotation (how the gripper is rotated in space relative to a reference frame), gripper values (representing how open or closed the gripper is while holding a lemon or lime) that were collected during the video recording are extracted. 
 
