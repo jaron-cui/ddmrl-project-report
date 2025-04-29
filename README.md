@@ -71,14 +71,54 @@ And the frame taken at the scan angle closest to the final selected angle at 315
 ## Navigation {Akshat}
 ## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
 
-![Training and Deployment](images/training-and-deployment.png)
+<p align="center">
+  <img src="images/training-and-deployment.png" alt="Training and Deployment" />
+</p>
+
+<p align="center">
+  Figure 1: Training and Deployment
+</p>
+
+In the 1st step we collected videos for for picking up the lemons, sorting the lemons, and sorting the limes in different environments. 
+
+An example of the video for picking up the lemon and sorting the lemon be seen in the pictures below. 
+
+<p align="center">
+  <img src="images/lemon-pickup-frames/frame-1.png" width="150" />
+  <img src="images/lemon-pickup-frames/frame-2.png" width="150" />
+  <img src="images/lemon-pickup-frames/frame-3.png" width="150" />
+  <img src="images/lemon-pickup-frames/frame-4.png" width="150" />
+  <img src="images/lemon-pickup-frames/frame-5.png" width="150" />
+</p>
+
+<p align="center">
+   Figure 2: Lemon Pick Up
+</p>
+
+<p align="center">
+  <img src="images/lemon-sorting-frames/frame-1.png" width="150" />
+  <img src="images/lemon-sorting-frames/frame-2.png" width="150" />
+  <img src="images/lemon-sorting-frames/frame-3.png" width="150" />
+  <img src="images/lemon-sorting-frames/frame-4.png" width="150" />
+  <img src="images/lemon-sorting-frames/frame-5.png" width="150" />
+</p>
+
+<p align="center">
+  Figure 3: Lemon Sorting
+</p>
 
 
 ## Data collection {Jaron}
 
 ## Training {Furkan}
 
-![Rum Training](images/rum.png)
+<p align="center">
+  <img src="images/rum.png" alt="Rum Training" />
+</p>
+
+<p align="center">
+  Figure 4: Rum Training
+</p>
 
 # Results/Conclusions
 ## Recap successes/failures of individual experiments/ideas + analysis
