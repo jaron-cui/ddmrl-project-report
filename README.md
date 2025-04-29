@@ -43,6 +43,17 @@ To facilitate label substitution, the physical labels used while taking training
 
 ![Training and Deployment](images/training-and-deployment.png)
 
+In the 1st step we collected videos for for picking up the lemons and sorting the lemons and limes in different environments. 
+
+An example of the video for picking up the lemon can be seen in the picture below. 
+
+<p align="center">
+  <img src="images/lemon-pickup-folder/frame-1.png" width="100">
+  <img src="images/lemon-pickup-folder/frame-2.png" width="100">
+  <img src="images/lemon-pickup-folder/frame-3.png" width="100">
+  <img src="images/lemon-pickup-folder/frame-4.png" width="100">
+  <img src="images/lemon-pickup-folder/frame-5.png" width="100">
+</p>
 
 ## Data collection {Jaron}
 
