@@ -46,7 +46,7 @@ To facilitate label substitution, the physical labels used while taking training
 ## Navigation {Akshat}
 ## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
 
-![Training and Deployment](images/training-an-deployment.png)
+![Training and Deployment](images/training-and-deployment.png)
 
 
 ## Data collection {Jaron}
