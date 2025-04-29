@@ -36,7 +36,37 @@ From these "generic" demonstrations, we can produce demonstrations of sorting le
 
 To facilitate label substitution, the physical labels used while taking training demonstrations are ARUCO fiducials. The held item is always a lemon, and during demonstration is placed into either the left or right bowl. The same ARUCO marker is always placed on the bowl in which the lemon is placed. With this procedure, lemon-sorting demonstrations can be produced by drawing the lemon label atop the ARUCO marker, and lime-sorting demonstrations can be produced by inserting the lime label and color-shifting the lemon.
 
-## Encoding-based alignment {Jaron}
+## Image Encoding-based alignment {Jaron}
+### Motivation
+Given working RUM policies for various simple tasks, the objective of composing compound tasks requires a robust method of chaining them together. The behavior of each individual task policy is sensitive to the deployment environment. If the model receives out-of-distribution observations, we can expect it to perform poorly. Thus, it is important that the robot realign itself after completing a chained task such that the following chained task is presented with an environment compatible with its training.
+
+For example, suppose the robot is instructed to pick up a lemon and place it in a bowl. First, the robot should align its camera so that a lemon is in view. Second, deploy the lemon-pickup policy. Third, align the camera with a bowl. Fourth, deploy the place-lemon-in-bowl policy.
+
+We attempt to devise an implementation of the alignment function that does not require additional data collection and can be run locally on the robot.
+
+### Demonstration
+
+### Implementation
+Our image encoding-based alignment strategy is as follows:
+1. Distill a representation of the start state of a task from the first few frames of each training demonstrations.
+2. During deployment, scan the surroundings for the camera frames that most closely match the distilled start state representation.
+3. Maneuver the robot towards the orientation that produced the closest match.
+
+We use the pretrained dino-vits16 image encoder to encode the reference and scan images. The start state representation is simply the average of the encodings of the first few frames of each training demonstration. This process is repeated for both the RGB and depth images to produce two independent references which have weighted relative importance.
+
+During a scan, images and the angles at which they were taken are recorded in a buffer class. Then, the images are encoded and scored by their cosine similarity to the references. The angle selection process involves binning the closest matches at small angle increments and selecting the bin with the highest match rate (normalized to account for variable reading density).
+
+Below is an example of a 360° scan that passes over a lemon:
+![Example of a scanning video](images\alignment\lab-scan-lemon.gif)
+
+Using reference representations extracted from the lemon pickup dataset, the following raw scores for each frame are as follows:
+![Raw frame scores](images\alignment\raw-scores.png)
+
+After the binning procedure, we produce scores for each angle increment out of 360°:
+![Binned scores](images\alignment\binned-scores.png)
+
+And the frame taken at the scan angle closest to the final selected angle at 315° is:
+![Binned scores](images\alignment\nearest-scan-frame.png)
 ## DynaMem-based alignment {Akshat}
 ## Navigation {Akshat}
 ## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
