@@ -91,7 +91,7 @@ Given working RUM policies for various simple tasks, the objective of composing 
 
 For example, suppose the robot is instructed to pick up a lemon and place it in a bowl. First, the robot should align its camera so that a lemon is in view. Second, deploy the lemon-pickup policy. Third, align the camera with a bowl. Fourth, deploy the place-lemon-in-bowl policy.
 
-We attempt to devise an implementation of the alignment function that does not require additional data collection and can be run locally on the robot.
+We propose an alignment function that does not require additional data collection and that can be run entirely locally.
 
 ### Demonstration
 <p align="center">
