@@ -176,7 +176,24 @@ The training stage is two fold, the first step is using a clustering algorithm t
 
 Deployment is rather straightforward where we move the model weights to the stretch robot and run deployment code. There is a nice UI that we have used and modified for our project.
 
-## Data collection {Jaron}
+## Data Collection {Jaron}
+The majority of collected data is thoroughly documented in the Google Doc ![Task Data Descriptions](https://docs.google.com/document/d/1YCe_gprSHMkfH2Gd2knWuvQBa5XBqS2Zd7mPv_3KrRY/edit?usp=sharing) (visible to NYU accounts).
+
+### Lemon Pickup
+The lemon pickup task starts with an open gripper and a lemon present in the scene, usually about 2-4 ft away. The gripper approaches, grasps, and lifts the lemon.
+
+400 samples were collected using the long-fingered gripper, while 668 demos were collected using the short-fingered gripper.
+The lemon pickup policy was ultimately trained on the short-fingered samples.
+
+### Lemon/Lime Sorting
+The lemon/lime sorting task starts with a gripper grasping a lemon or lime in front of two side-by-side bowls. The gripper places lemons in the left bowl and limes in the right bowl.
+
+1104 + ... samples were collected and used to train the policy. ... additional unused samples were collected at a later date.
+
+### ARUCO Lemon/Lime Sorting
+The ARUCO lemon/lime sorting task starts with a gripper grasping a lemon in front of two or more bowls, each with an ARUCO marker placed behind it. The gripper places the lemon into the bowl accompanied by the light green-backed marker.
+
+728 samples were collected, but no policy was trained due to delays in image processing implementation and focus on the left/right lemon/lime sorting task.
 
 ## Training {Furkan}
 
