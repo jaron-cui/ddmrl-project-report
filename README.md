@@ -182,11 +182,11 @@ MinGPT is a minimal representation of the GPT that is used to predict the next t
 
 Instead of choosing the code vector that was assigned the highest probability, a code vector is sampled from the probability distribution over all code vectors for each quantization layer. This introduces controlled randomness that allows exploration and helps the model avoid getting stuck in repetitive behaviors. Then the difference between the code vector predicted by the MinGPT and Code Predictor head based on the observation sequence and the code vector that is assigned to the observation sequence by the RVQ are minimized for each quantization layer. 
 
-In addition, the codebook vectors that are predicted by the MinGPT and Code Prediction head for each qunatization layer based on the sequence of observations are combined and decoded with RVQ Decoder that was trained in Stage 1.
+In addition, the codebook vectors that are predicted by the MinGPT and Code Prediction head for each quantization layer based on the sequence of observations are combined and decoded to an action with the RVQ Decoder that was trained in Stage 1.
 
-Lastly, 
+Lastly, a discrete unit can only represent a limited amount of information. Therefore, when a continuous action is converted into discrete tokens (code vectors), and these discrete tokens are used to reconstruct the continuous action, the loss of information in the continuous action is inevitable during the reconstruction process. To solve this issue, the output of the MinGPT is used as input to another layer that is used to produce small continuous adjustments for each possible code vector for each codebook in all quantization layers. These small continuous adjustments are called offsets. 
 
-
+After the probability distribution of the indices of the codebook vectors are predicted by the MinGPT and Code Predictor head for each quantization layer and a codebook vector is sampled from these distributions, the offsets that are predicted by the Offset head for each quantization layer and that belong to the selected codebook vectors are combined by summation and this is added to the decoded action. This decoded and adjusted action is then compared with the ground truth action and the difference between them is minimized during the training process.
 
 
 # Results/Conclusions
