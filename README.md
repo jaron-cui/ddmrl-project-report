@@ -1,7 +1,8 @@
 # Intro/Motivation
 ## Context {Furkan}
-TODO: <Flowcharts/graphs>
-Robot Utility Models are... <brief and concise description of RUMs>
+
+Robot Utility Models is a framework of collecting versatile data with portable data
+collection tools that allow collecting data from different environments in an efficient and quick way, using these data to train an imitation-learning policy that can generalize to new environments, and deploying these policies on Hello Robot Stretch [1]
 
 ## Project Objectives
 Robot Utility Models are able to perform individual short-term tasks learned from expert demonstrations. We seek to investigate and expand the capabilities they provide in regards to multimodality and task complexity.
@@ -191,7 +192,7 @@ Deployment is rather straightforward where we move the model weights to the stre
 </p>
 
 
-After the videos are collected, they are compressed, and translation (linear movement of the robot's gripper), rotation (how the gripper is rotated in space relative to a reference frame), gripper values (representing how open or closed the gripper is while holding a lemon or lime) that were collected during the video recording are extracted. 
+After the videos are collected, they are compressed, and translation (linear movement of the robot's gripper), rotation (how the gripper is rotated in space relative to a reference frame), gripper values (representing how open or closed the gripper is while holding a lemon or lime) that were collected during the video recording are extracted. The gripper values are predicted from the video frames with an RGB-based model [1].
 
 ### Stage 1. Action Tokenization
 
@@ -199,9 +200,9 @@ In daily life, when we want to perform a certain task, there are often multiple 
 
 In our case, the sequence of translation (x, y, z), rotation ($q_x$, $q_y$, $q_z$, $q_w$), and gripper (g) values that are extracted from each video are used as actions and these values are all continuous. So, to make these continuous actions compatible with a transformer model, we need to tokenize them. 
 
-There are different ways to do this. One way is to use K-Means clustering to represent similar continuous actions in different groups/clusters and treat each cluster as a discrete unit/token. However, this method is inefficient for high-dimensional action spaces. It doesn't scale well for long action sequences. It lacks gradient information and it struggles with modeling long-range dependencies in action sequences In addition, K-Means create hard boundaries between clusters. []
+There are different ways to do this. One way is to use K-Means clustering [2] to represent similar continuous actions in different groups/clusters and treat each cluster as a discrete unit/token. However, this method is inefficient for high-dimensional action spaces. It doesn't scale well for long action sequences. It lacks gradient information and it struggles with modeling long-range dependencies in action sequences In addition, K-Means creates hard boundaries between clusters. [4]
 
-One other method that can used to tokenize the continuous actions is Vector Quantization. In this method, a neural network model is used to extract the features of the continuous action values. This is called a Residual VQ Encoder. In addition, a list of vectors is initialized randomly and these are called codebook vectors. There is also a process of quantization which is basically mapping the outputs of the RVQ Encoder to the nearest codebook vector.  
+One other method that can be used to tokenize the continuous actions is Vector Quantization with Variational Autoencoders [3]. In this method, a neural network model is used to extract the features of the continuous action values. This is called a Residual VQ Encoder. In addition, a list of vectors is initialized randomly and these are called codebook vectors. There is also a process of quantization which is basically mapping the outputs of the RVQ Encoder to the nearest codebook vector.  
 
 In VQ-BeT, multiple layers of quantization are used in such a way that the codebook in each layer captures more details about the input (continuous action) that were missed in the previous layers. Assuming that we use $N$ layers, here is how the process works: 
 
@@ -213,7 +214,7 @@ In VQ-BeT, multiple layers of quantization are used in such a way that the codeb
 
 Because the difference (residuals) between the continuous action $x$ and the quantized outputs from the previous layer(s) are used in each layer, this is called Residual Vector Quantization (RVQ). 
 
-After this process is done, another neural network model tries to reconstruct the original continuous action from the quantized representations of each layer. This model is called the Residual VQ Decoder []. 
+After this process is done, another neural network model tries to reconstruct the original continuous action from the quantized representations of each layer. This model is called the Residual VQ Decoder [4]. 
 
 During the training of RVQ, the encoder outputs of different actions can be assigned to the same codebook vector. For updating that codebook vector, the average of all encoder outputs that are assigned to that codebook vector is taken and the codebook vector is updated as a weighted average. By using this approach, codebook vectors adapt to represent the distribution of actions over time. 
 
@@ -221,7 +222,7 @@ At the end of RVQ training, the codebooks are updated and a codebook vector can 
 
 ### Stage 2. Learning VQ-BeT
 
-MinGPT is a minimal representation of the GPT that is used to predict the next token. In VQ-BeT, the sequence of image frames (observation sequence) extracted from the collected videos is used as input to MinGPT. The output of the MinGPT is fed to a layer (code predictor head) and this layer produces a probability distribution over all possible primary codes (index of the codebook vector in the 1st codebook that is closest to the input action), a probability distribution over all possible secondary codes (index of the codebook in the 2nd codebook that is closest to the input action), etc. In other words, a probability distribution of the indices of the code vectors is predicted for each quantization layer.
+MinGPT [5] is a minimal representation of the GPT that is used to predict the next token. In VQ-BeT, the sequence of image frames (observation sequence) extracted from the collected videos is used as input to MinGPT. The output of the MinGPT is fed to a layer (code predictor head) and this layer produces a probability distribution over all possible primary codes (index of the codebook vector in the 1st codebook that is closest to the input action), a probability distribution over all possible secondary codes (index of the codebook in the 2nd codebook that is closest to the input action), etc. In other words, a probability distribution of the indices of the code vectors is predicted for each quantization layer.
 
 Instead of choosing the code vector that is assigned the highest probability, a code vector is sampled from the probability distribution over all code vectors for each quantization layer. This introduces controlled randomness that allows exploration and helps the model avoid getting stuck in repetitive behaviors. Then the difference between the code vector predicted by the code predictor head based on the observation sequence and the code vector that is assigned to the observation sequence by the RVQ is minimized for each quantization layer. 
 
@@ -248,8 +249,10 @@ This is not the necessary reason that the policy is performing less than idea, b
 
 [1] Etukuru, H., Naka, N., Hu, Z., Mehu, J., Edsinger, A., Paxton, C., Chintala, S., Pinto, L., & Shafiullah, N. M. M. (2024). *General Policies for Zero-Shot Deployment in New Environments*. arXiv preprint arXiv:2409.05865. [https://arxiv.org/abs/2409.05865](https://arxiv.org/abs/2409.05865)
 
-[2] Shafiullah, N. M. M., Cui, Z. J., Altanzaya, A., & Pinto, L. (2022). *Behavior Transformers: Cloning $k$ modes with one stone*. In *Thirty-Sixth Conference on Neural Information Processing Systems (NeurIPS 2022)*. [https://openreview.net/forum?id=agTr-vRQsa](https://openreview.net/forum?id=agTr-vRQsa)
+[2] Shafiullah, N. M. M., Cui, Z. J., Altanzaya, A., & Pinto, L. (2022). *Behavior Transformers: Cloning k modes with one stone*. In *Thirty-Sixth Conference on Neural Information Processing Systems (NeurIPS 2022)*. [https://openreview.net/forum?id=agTr-vRQsa](https://openreview.net/forum?id=agTr-vRQsa)
 
 [3] Van den Oord, A., Vinyals, O., & Kavukcuoglu, K. (2017). *Neural Discrete Representation Learning*. In *Advances in Neural Information Processing Systems*, 30. [https://proceedings.neurips.cc/paper_files/paper/2017/file/7a98af17e63a0ac09ce2e96d03992fbc-Paper.pdf](https://proceedings.neurips.cc/paper_files/paper/2017/file/7a98af17e63a0ac09ce2e96d03992fbc-Paper.pdf)
 
 [4] Lee, S., Wang, Y., Etukuru, H., Kim, H. J., Shafiullah, N. M. M., & Pinto, L. (2024). *Behavior Generation with Latent Actions*. arXiv preprint arXiv:2403.03181. [https://arxiv.org/abs/2403.03181](https://arxiv.org/abs/2403.03181)
+
+[5] Karpathy, A. (2020). MinGPT. GitHub repository. https://github.com/karpathy/minGPT
