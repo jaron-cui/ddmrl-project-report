@@ -130,6 +130,7 @@ An example of the video for picking up the lemon and sorting the lemon be seen i
   Figure 3: Lemon Sorting
 </p>
 
+After collecting the demos, which roughly takes $\mathcal{O}(1)$ hours, it is the data preprocessing stage.
 
 ## Data collection {Jaron}
 
