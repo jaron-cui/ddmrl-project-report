@@ -246,45 +246,10 @@ This is not the necessary reason that the policy is performing less than idea, b
 
 # References 
 
-```bibtex
-@article{etukuru2024robot,
-  title={General Policies for Zero-Shot Deployment in New Environments},
-  author={Etukuru, Haritheja and Naka, Norihito and Hu, Zijin and Mehu, Julian and Edsinger, Aaron and Paxton, Chris and Chintala, Soumith and Pinto, Lerrel and Shafiullah, Nur Muhammad Mahi},
-  journal={arXiv preprint arXiv:2409.05865},
-  year={2024}
-}
+[1] Etukuru, H., Naka, N., Hu, Z., Mehu, J., Edsinger, A., Paxton, C., Chintala, S., Pinto, L., & Shafiullah, N. M. M. (2024). *General Policies for Zero-Shot Deployment in New Environments*. arXiv preprint arXiv:2409.05865. [https://arxiv.org/abs/2409.05865](https://arxiv.org/abs/2409.05865)
 
-@inproceedings{
-      shafiullah2022behavior,
-      title={Behavior Transformers: Cloning $k$ modes with one stone},
-      author={Nur Muhammad Mahi Shafiullah and Zichen Jeff Cui and Ariuntuya Altanzaya and Lerrel Pinto},
-      booktitle={Thirty-Sixth Conference on Neural Information Processing Systems},
-      year={2022},
-      url={https://openreview.net/forum?id=agTr-vRQsa}
-}
+[2] Shafiullah, N. M. M., Cui, Z. J., Altanzaya, A., & Pinto, L. (2022). *Behavior Transformers: Cloning $k$ modes with one stone*. In *Thirty-Sixth Conference on Neural Information Processing Systems (NeurIPS 2022)*. [https://openreview.net/forum?id=agTr-vRQsa](https://openreview.net/forum?id=agTr-vRQsa)
 
-@inproceedings{NIPS2017_7a98af17,
- author = {van den Oord, Aaron and Vinyals, Oriol and kavukcuoglu, koray},
- booktitle = {Advances in Neural Information Processing Systems},
- editor = {I. Guyon and U. Von Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},
- pages = {},
- publisher = {Curran Associates, Inc.},
- title = {Neural Discrete Representation Learning},
- url = {https://proceedings.neurips.cc/paper_files/paper/2017/file/7a98af17e63a0ac09ce2e96d03992fbc-Paper.pdf},
- volume = {30},
- year = {2017}
-}
+[3] Van den Oord, A., Vinyals, O., & Kavukcuoglu, K. (2017). *Neural Discrete Representation Learning*. In *Advances in Neural Information Processing Systems*, 30. [https://proceedings.neurips.cc/paper_files/paper/2017/file/7a98af17e63a0ac09ce2e96d03992fbc-Paper.pdf](https://proceedings.neurips.cc/paper_files/paper/2017/file/7a98af17e63a0ac09ce2e96d03992fbc-Paper.pdf)
 
-@article{lee2024behavior,
-  title={Behavior Generation with Latent Actions},
-  author={Seungjae Lee and Yibin Wang and Haritheja Etukuru and H. Jin Kim and Nur Muhammad Mahi Shafiullah and Lerrel Pinto},
-  journal={arXiv preprint arXiv:2403.03181},
-  year={2024}
-}
-
-
-
-
-
-
-
+[4] Lee, S., Wang, Y., Etukuru, H., Kim, H. J., Shafiullah, N. M. M., & Pinto, L. (2024). *Behavior Generation with Latent Actions*. arXiv preprint arXiv:2403.03181. [https://arxiv.org/abs/2403.03181](https://arxiv.org/abs/2403.03181)
