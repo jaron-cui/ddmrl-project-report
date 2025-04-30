@@ -134,13 +134,29 @@ After the videos are collected, they are compressed, and translation (linear mov
 
 The translation, rotation, and gripper values extracted from each frame in each video are used as actions. When we want to perform a certain task, there are often multiple ways to do it. Transformer-based models are very good at capturing this multi-modality and associating different and relevant parts of the input with each other. However, transformer-based models usually work with discrete data. To train a language model, for instance, the text is split into discrete units named tokens, these tokens are converted into embedding vectors to represent each token with a vector (list of numbers), and these embedding vectors are transformed further with another linear layer. In our case, the action values are all continuous. So, to make these continuous actions compatible with a transformer model, we need to tokenize them. 
 
-There are different ways to do this. One way is to simply use K-Means clustering to cluster the continous actions and treat each cluster as a discrete unit/token. However,this method is inefficient for high dimensional action spaces. It doesn't scale well for long action sequences. It lacks gradient information and it struggles with modeling long range dependencies in action sequences In addition, K-Means create hard boundaries between clusters. []
+There are different ways to do this. One way is to simply use K-Means clustering to cluster the continuous actions and treat each cluster as a discrete unit/token. However, this method is inefficient for high-dimensional action spaces. It doesn't scale well for long action sequences. It lacks gradient information and it struggles with modeling long-range dependencies in action sequences In addition, K-Means create hard boundaries between clusters. []
 
-One other method we can use to tokenize the continous actions is Vector Quantization. 
+One other method we can use to tokenize the continuous actions is Vector Quantization. In this method, a list of vectors named codebook vectors are initialized randomly and this list of codebook vectors and a neural network model learns to map an action to the nearest representative codebook vector which can be seen as the discrete representation of the continuous action. This neural network is called the Residual VQ Encoder.
+
+In VQ-BeT, multiple layers of codebooks are used in such a way that the codebook in each layer captures more details that were missed in the previous layers. Assuming that we use $N$ layers, here is how the process works: 
+
+1) The continuous action $x$ is quantized with the first codebook to $q_1$
+2) The difference between the continuous action $x$ and $q_1$ is quantized with the second codebook to $q_2$ 
+3) The difference between the continuous action $x$ and $q_1$ + $q_2$ is quantized with the third codebook to $q_3$ 
+4) This process continues until quantizing the residuals $N-1$ times.
+
+After this, another model tries to reconstruct the original continuous action from the quantized representation of this action. This model is called the Residual VQ Decoder. 
+
+During the training process of RVQ, the parameters of the encoder and decoder and the codebooks are updated according to these 3 main goals: 
+
+1) The difference between the reconstructed continuous action and the original continuous action should be minimal.
+2) The codebook vectors should be moved closer to the encoder outputs 
+3) The encoder outputs should be moved closer to codebook vectors
+
+This mechanism allows both the encoder and codebook to adapt to each other simultaneously and it allows for extracting meaningful action patterns to be found without the need for them to be predefined []. 
+
 
 ### Stage 2. Learning VQ-BeT
-
-
 
 
 # Results/Conclusions
@@ -148,4 +164,8 @@ One other method we can use to tokenize the continous actions is Vector Quantiza
 TODO: Add respective notes into this section
 ## Implications of these successes/failures
 ## Future work?
+
+
+# References 
+
 
