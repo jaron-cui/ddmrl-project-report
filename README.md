@@ -190,7 +190,7 @@ The lemon pickup policy was ultimately trained on the short-fingered samples.
 ### Lemon/Lime Sorting
 The lemon/lime sorting task starts with a gripper grasping a lemon or lime in front of two side-by-side bowls. The gripper places lemons in the left bowl and limes in the right bowl.
 
-1104 + ... samples were collected and used to train the policy. ... additional unused samples were collected at a later date.
+1104 + ~700 samples were collected and used to train the policy. 1000 additional unused samples were collected at a later date.
 
 ### ARUCO Lemon/Lime Sorting
 The ARUCO lemon/lime sorting task starts with a gripper grasping a lemon in front of two or more bowls, each with an ARUCO marker placed behind it. The gripper places the lemon into the bowl accompanied by the light green-backed marker.
