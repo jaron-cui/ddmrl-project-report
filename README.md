@@ -1,7 +1,6 @@
 # Intro/Motivation
 ## Context {Furkan}
-
-Robot Utility Models is a framework for collecting versatile data with portable data collection tools that allow collecting data from different environments in an efficient and quick way, using these data to train an imitation-learning policy that can generalize to new environments, and deploying these policies on Hello Robot Stretch [1]
+Robot Utility Models is a framework for collecting versatile data with portable data collection tools that allow collecting data from different environments in an efficient and quick way, using these data to train an imitation-learning policy that can generalize to new environments, and deploying these policies on Hello Robot Stretch robot. [1]
 
 ## Project Objectives
 Robot Utility Models are able to perform individual short-term tasks learned from expert demonstrations. We seek to investigate and expand the capabilities they provide in regards to multimodality and task complexity.
@@ -191,7 +190,9 @@ Deployment is rather straightforward where we move the model weights to the stre
 </p>
 
 
-After the videos are collected, they are compressed, and translation (linear movement of the robot's gripper), rotation (how the gripper is rotated in space relative to a reference frame), gripper values (representing how open or closed the gripper is while holding a lemon or lime) that were collected during the video recording are extracted. The gripper values are predicted from the video frames with an RGB-based model [1].
+During the data collection, RGB videos are collected with an iPhone when the lemons are picked up and lemons and limes are sorted with the portable data collection tool. In addition, translation (linear movement of the robot's gripper), and rotation (how the gripper is rotated in space relative to a reference frame) are collected. In addition, the gripper values (representing how open or closed the gripper is while holding a lemon or lime) are predicted from the video frames with an RGB-based model. Lastly, translation, rotation, and gripper values are automatically synchronized and timestamped by the iPhone without needing any calibration [1]. 
+
+After the data is collected, the videos are compressed, and translation, rotation, and gripper values are extracted.
 
 ### Stage 1. Action Tokenization
 
