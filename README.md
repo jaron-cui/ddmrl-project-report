@@ -1,8 +1,7 @@
 # Intro/Motivation
 ## Context {Furkan}
 
-Robot Utility Models is a framework of collecting versatile data with portable data
-collection tools that allow collecting data from different environments in an efficient and quick way, using these data to train an imitation-learning policy that can generalize to new environments, and deploying these policies on Hello Robot Stretch [1]
+Robot Utility Models is a framework for collecting versatile data with portable data collection tools that allow collecting data from different environments in an efficient and quick way, using these data to train an imitation-learning policy that can generalize to new environments, and deploying these policies on Hello Robot Stretch [1]
 
 ## Project Objectives
 Robot Utility Models are able to perform individual short-term tasks learned from expert demonstrations. We seek to investigate and expand the capabilities they provide in regards to multimodality and task complexity.
