@@ -4,7 +4,7 @@ TODO: <Flowcharts/graphs>
 Robot Utility Models are... <brief and concise description of RUMs>
 
 ## Project Objectives
-Robot Utility Models (RUM) have demonstrated its ability to complete individual short-term tasks and generalize robustly to out of distribution environments via behaviour cloning. We seek to investigate and expand the capabilities of RUM in regards to multimodality and task complexity.
+Robot Utility Models are able to perform individual short-term tasks learned from expert demonstrations. We seek to investigate and expand the capabilities they provide in regards to multimodality and task complexity.
 
 RUMs uses BeT, which has been shown to be able to learn multimodal actions. We aim to test the extent of this capability with a distinctly multimodal task: sorting items based on their visual appearance into location-specific receptacles. RUMs has not yet been tested on such an explicitly forked task conditioned on visual indicators.
 
