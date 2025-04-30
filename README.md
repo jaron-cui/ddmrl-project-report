@@ -26,6 +26,13 @@ In terms of task selection, our first idea is to have a bottle/can/cup pick up p
 
 Besides task selection, we also need to overcome the technical challenge of task composition, as this was not previously implemented. Our goal is to have a general, policy independent way of composing arbitrary policies, as this will allow arbitrary extension of task complexity, as long as the tasks are compositional. There were discussions on techniques to achieve that, below we present two alignment methods, one compares image encoding similarity while the other uses DynaMem.  
 
+<p align="center">
+  <img src="images/cup_pick_up_frames/ezgif-frame-001.png" width="150" />
+  <img src="images/cup_pick_up_frames/ezgif-frame-039.png" width="150" />
+  <img src="images/cup_pick_up_frames/ezgif-frame-059.png" width="150" />
+  <img src="images/cup_pick_up_frames/ezgif-frame-079.png" width="150" />
+</p>
+
 ## Lemon pickup policy {Alex}
 This is the first policy we trained, where we familiarized ourselves with the data collection procedure, and this policy can be seen as replicating existing result, since it is just a simple pick up task, like those already trained. From conversation with Mahi and Haritheja, we understood we needed roughly 500 demos to learn a lemon pick up policy, so we collected lemon pick up in various environments, some of the demos can be seen in the ``overview of policy training procedure'' section. Below we attach a successful policy rollout demonstration (2x speed).
 <p align="center">
