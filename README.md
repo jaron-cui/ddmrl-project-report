@@ -17,7 +17,7 @@ The expected contributions of the project include:
 
 1. A robust visually-conditioned sorting policy.
 2. An implementation of task composition.
-3. The integration of navigation capabilities with RUMs
+3. The integration of navigation capabilities with RUMs.
 
 # Experiments/Processes
 ## Describe initial ideation stage (cups/cabinet stuff) {Alex}
@@ -42,17 +42,17 @@ Our first training involved around 1.5k demos, however that seems to not be enou
 
 ## Lemon/Lime Sorting with Labeled Bowls {Jaron}
 ### Idea
-The first sorting policy is visually conditioned to direct an object to a set relative location (left/right). An interesting alternative is where the sorting destination is not fixed. Rather than sorting lemons and limes into the left and right bowls, respectively, lemons and limes are more flexibly sorted into corresponding labeled bowls. Picture 'lemon' and 'lime' signs affixed to each bowl.
+The first sorting policy is visually conditioned to direct an object to a set relative location (left/right). We consider a version of this task where the sorting destination is not fixed. Picture 'lemon' and 'lime' signs affixed to each bowl.
 
-Two problems with the implementation of this task are that 1: It appears to require double the training data as the previous version, as we now need to demonstrate sorting each fruit into the other bowl, and 2: There are still significant inflexibilities - what if we need to make modifications to the labels we select for lemons and limes, or would also like to sort oranges?
+Two problems with the implementation of this task are that 1: It appears to require double the training data as the previous version (we now need to demonstrate sorting each fruit into both bowls), and 2: There are still significant inflexibilities - what if we need to make modifications to the labels we select for lemons and limes, or would also like to sort oranges?
 
 ### Tailored Image Transformations
-We suggest that the increased training data acquisition may be avoided by using targeted image transformations.
-The training demonstrations can be performed such that we are able to substitute the labels and the sorted item after-the-fact using image processing operations.
+We suggest that the need for increased data acquisition may be avoided by applying targeted image transformations to a smaller dataset.
+Training demonstrations can be performed such that we are able to modify the appearance of the labels and the sorted item in post.
 
-From these "generic" demonstrations, we can produce demonstrations of sorting lemons by changing the sign on the destination bowl to appear as the lemon label and color-shifting the held fruit to resemble a lemon. We can likewise produce demonstrations of sorting limes by changing the sign to the lime label and color-shifting the held fruit to resemble a lime.
+From these "generic" demonstrations, we can produce lemon-sorting demonstrations by changing the sign on the destination bowl to appear as the lemon label and color-shifting the held fruit to resemble a lemon. We can likewise produce lime-sorting demonstrations by changing the sign to the lime label and color-shifting the held fruit to resemble a lime.
 
-To facilitate label substitution, the physical labels used while taking training demonstrations are ARUCO fiducials. The held item is always a lemon, and during demonstration is placed into either the left or right bowl. The same ARUCO marker is always placed on the bowl in which the lemon is placed. With this procedure, lemon-sorting demonstrations can be produced by drawing the lemon label atop the ARUCO marker, and lime-sorting demonstrations can be produced by inserting the lime label and color-shifting the lemon.
+Training demonstrations are performed with ARUCO fiducials that facilitate label substitution. A lemon is placed into either the left or right bowl. The same ARUCO marker is always placed on destination bowl. With this procedure, lemon-sorting demonstrations can be produced by drawing the lemon label atop the ARUCO marker, and lime-sorting demonstrations can be produced by inserting the lime label and color-shifting the lemon.
 
 The raw sample (left), the derived lemon sorting sample (center), and the derived lime sorting sample (right).
 <p align="center">
@@ -62,13 +62,13 @@ The raw sample (left), the derived lemon sorting sample (center), and the derive
 </p>
 
 ### Implementation
-Given the raw sample, we are able to intermittently extract the four corners of sharply visible ARUCO markers using OpenCV.
-We tested three methods of turning the intermittent signals into persistent ones:
+OpenCV allows us to intermittently extract the position of ARUCO markers from videos frame-by-frame.
+We tested three methods of turning these sporadic signals into persistent ones:
 1. Kalman filters
 2. Forward optical flow tracking
 3. Interpolated forward and reverse optical flow tracking
 
-Below are annotated examples of signal tracking. First, the raw frame-by-frame detections. Second, with Kalman filtering. Third, using forward optical flow. Last and most robust, using interpolated dual optical flow.
+Below, we provide annotated signal tracking visualizations. First, the raw frame-by-frame detections. Second, with Kalman filtering. Third, using forward optical flow. Lastly and most robust, using interpolated dual optical flow.
 <p align="center">
   <img src="images/aruco/aruco-raw.gif" alt="Raw sample" height="150vh"/>
   <img src="images/aruco/aruco-kalman.gif" alt="Kalman filter" height="150vh"/>
@@ -76,18 +76,18 @@ Below are annotated examples of signal tracking. First, the raw frame-by-frame d
   <img src="images/aruco/aruco-dual-optical-flow.gif" alt="Dual optical flow" height="150vh"/>
 </p>
 
-We map colored labels with blue borders and random variation (in hue, border width, and noise level) onto the stable signal acquired using dual optical flow.
+We map colored labels with blue borders and random variation (in hue, border width, and noise level) onto the signal stabilized by dual optical flow interpolation.
 
-Note that our 728 "generic" samples all use lemons. The plan was to mask by hue and color-shift to green in order to transmute lemons to limes. Alas, yellow is too varied a color category to easily filter. The example given above is mottled with only mild leakage of green to the bowl in which it is placed, but many other samples taken on light wooden tables have proven infeasible to reliably constrain green within the fruit. We ought to have implemented and tested the image transforms on a few samples before collecting the full dataset. In that case, we would have used a more easily masked color - perhaps by painting a lemon neon pink.
+Note that our 728 "generic" samples all use lemons. The plan was to mask by lemons by location and hue, and then color-shift in order to transmute lemons to limes. Alas, yellow is too varied a color category to easily filter. The example given above is mottled with only mild leakage of green to the bowl in which it is placed, but many other samples taken on light wooden tables have proven infeasible to reliably constrain green within the fruit. We ought to have implemented and tested the image transforms on a few samples before collecting the full dataset. In that case, we would have used a more easily masked color - perhaps by painting a lemon neon pink.
 
 The full implementation of ARUCO tracking and custom image transformations resides at https://github.com/jaron-cui/aruco-label-tracking.
 
 ### Outcome
-Due to time constraints and problems with the vanilla left/right lemon/lime sorting policy, we were unable to train and test a policy on the transformed data. However, we were able to learn techniques for data processing and learn lessons about the importance of small-scale pre-testing.
+Due to time constraints and problems with the vanilla left/right lemon/lime sorting policy, we were unable to train and test a policy on the transformed data. However, we were able to learn techniques for data processing and the importance of small-scale pre-testing.
 
 ## Image Encoding-based alignment {Jaron}
 ### Motivation
-Given working RUM policies for various simple tasks, the objective of composing compound tasks requires a robust method of chaining them together. The behavior of each individual task policy is sensitive to the deployment environment. If the model receives out-of-distribution observations, we can expect it to perform poorly. Thus, it is important that the robot realign itself after completing a chained task such that the following chained task is presented with an environment compatible with its training.
+Given RUM policies for various simple tasks, composing compound tasks requires a robust chaining method. The behavior of each individual task policy is sensitive to the deployment environment. If the model receives out-of-distribution observations, we can expect it to perform poorly. Thus, it is important that the robot realigns itself after completing a subtask such that the following is presented with an appropriate initial observation.
 
 For example, suppose the robot is instructed to pick up a lemon and place it in a bowl. First, the robot should align its camera so that a lemon is in view. Second, deploy the lemon-pickup policy. Third, align the camera with a bowl. Fourth, deploy the place-lemon-in-bowl policy.
 
