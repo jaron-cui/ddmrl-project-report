@@ -179,7 +179,7 @@ The training stage is two fold, the first step is using a clustering algorithm t
 Deployment is rather straightforward where we move the model weights to the stretch robot and run deployment code. There is a nice UI that we have used and modified for our project.
 
 ## Data Collection {Jaron}
-The majority of collected data is thoroughly documented in the Google Doc ![Task Data Descriptions](https://docs.google.com/document/d/1YCe_gprSHMkfH2Gd2knWuvQBa5XBqS2Zd7mPv_3KrRY/edit?usp=sharing) (visible to NYU accounts).
+The majority of collected data is thoroughly documented in the Google Doc [Task Data Descriptions](https://docs.google.com/document/d/1YCe_gprSHMkfH2Gd2knWuvQBa5XBqS2Zd7mPv_3KrRY/edit?usp=sharing) (visible to NYU accounts).
 
 ### Lemon Pickup
 The lemon pickup task starts with an open gripper and a lemon present in the scene, usually about 2-4 ft away. The gripper approaches, grasps, and lifts the lemon.
