@@ -41,17 +41,49 @@ Our first training involved around 1.5k demos, however that seems to not be enou
 [insert demo for rollout and sample collected demos]
 
 ## Lemon/Lime Sorting with Labeled Bowls {Jaron}
+### Idea
 The first sorting policy is visually conditioned to direct an object to a set relative location (left/right). An interesting alternative is where the sorting destination is not fixed. Rather than sorting lemons and limes into the left and right bowls, respectively, lemons and limes are more flexibly sorted into corresponding labeled bowls. Picture 'lemon' and 'lime' signs affixed to each bowl.
 
 Two problems with the implementation of this task are that 1: It appears to require double the training data as the previous version, as we now need to demonstrate sorting each fruit into the other bowl, and 2: There are still significant inflexibilities - what if we need to make modifications to the labels we select for lemons and limes, or would also like to sort oranges?
 
-### Tailored Image Augmentations
-We suggest that the increased training data acquisition may be avoided by using targeted image augmentations.
+### Tailored Image Transformations
+We suggest that the increased training data acquisition may be avoided by using targeted image transformations.
 The training demonstrations can be performed such that we are able to substitute the labels and the sorted item after-the-fact using image processing operations.
 
 From these "generic" demonstrations, we can produce demonstrations of sorting lemons by changing the sign on the destination bowl to appear as the lemon label and color-shifting the held fruit to resemble a lemon. We can likewise produce demonstrations of sorting limes by changing the sign to the lime label and color-shifting the held fruit to resemble a lime.
 
 To facilitate label substitution, the physical labels used while taking training demonstrations are ARUCO fiducials. The held item is always a lemon, and during demonstration is placed into either the left or right bowl. The same ARUCO marker is always placed on the bowl in which the lemon is placed. With this procedure, lemon-sorting demonstrations can be produced by drawing the lemon label atop the ARUCO marker, and lime-sorting demonstrations can be produced by inserting the lime label and color-shifting the lemon.
+
+The raw sample (left), the derived lemon sorting sample (center), and the derived lime sorting sample (right).
+<p align="center">
+  <img src="images/aruco/pre-transform-sample.gif" alt="Raw sample" height="200vh"/>
+  <img src="images/aruco/lemon-transformed-sample.gif" alt="Derived lemon sample" height="200vh"/>
+  <img src="images/aruco/lime-transformed-sample.gif" alt="Derived lime sample" height="200vh"/>
+</p>
+
+### Implementation
+Given the raw sample, we are able to intermittently extract the four corners of sharply visible ARUCO markers using OpenCV.
+We tested three methods of turning the intermittent signals into persistent ones:
+1. Kalman filters
+2. Forward optical flow tracking
+3. Interpolated forward and reverse optical flow tracking
+
+Below are annotated examples of signal tracking. First, the raw frame-by-frame detections. Second, with Kalman filtering. Third, using forward optical flow. Last and most robust, using interpolated dual optical flow.
+<p align="center">
+  <img src="images/aruco/aruco-raw.gif" alt="Raw sample" height="150vh"/>
+  <img src="images/aruco/aruco-kalman.gif" alt="Kalman filter" height="150vh"/>
+  <img src="images/aruco/aruco-forward-optical-flow.gif" alt="Forward optical flow" height="150vh"/>
+  <img src="images/aruco/aruco-dual-optical-flow.gif" alt="Dual optical flow" height="150vh"/>
+</p>
+
+We map colored labels with blue borders and random variation (in hue, border width, and noise level) onto the stable signal acquired using dual optical flow.
+
+Note that our 728 "generic" samples all use lemons. The plan was to mask by hue and color-shift to green in order to transmute lemons to limes. Alas, yellow is too varied a color category to easily filter. The example given above is mottled with only mild leakage of green to the bowl in which it is placed, but many other samples taken on light wooden tables have proven infeasible to reliably constrain green within the fruit. We ought to have implemented and tested the image transforms on a few samples before collecting the full dataset. In that case, we would have used a more easily masked color - perhaps by painting a lemon neon pink.
+
+The full implementation of ARUCO tracking and custom image transformations resides at https://github.com/jaron-cui/aruco-label-tracking.
+
+### Outcome
+Due to time constraints and problems with the vanilla left/right lemon/lime sorting policy, we were unable to train and test a policy on the transformed data. However, we were able to learn techniques for data processing and learn lessons about the importance of small-scale pre-testing.
 
 ## Image Encoding-based alignment {Jaron}
 ### Motivation
@@ -63,14 +95,14 @@ We attempt to devise an implementation of the alignment function that does not r
 
 ### Demonstration
 <p align="center">
-  <img src="images\alignment\alignment-demo.gif" alt="Encoding-based Alignment Demo" height="400vh"/>
+  <img src="images/alignment/alignment-demo.gif" alt="Encoding-based alignment demo" height="400vh"/>
 </p>
 
 ### Implementation
 Our image encoding-based alignment strategy is as follows:
 1. Distill a representation of the start state of a task from the first few frames of each training demonstrations.
 2. During deployment, scan the surroundings for the camera frames that most closely match the distilled start state representation.
-3. Maneuver the robot towards the orientation that produced the closest match.
+3. Maneuver the robot toward the orientation that produced the closest match.
 
 We use the pretrained dino-vits16 image encoder to encode the reference and scan images. The start state representation is simply the average of the encodings of the first few frames of each training demonstration. This process is repeated for both the RGB and depth images to produce two independent references which have weighted relative importance.
 
@@ -78,17 +110,24 @@ During a scan, images and the angles at which they were taken are recorded in a 
 
 An example of a 360° scan that passes over a lemon and the frame taken at the scan angle closest to the selected angle of 315°.
 <p align="center">
-  <img src="images\alignment\lab-scan-lemon.gif" alt="Example of a scanning video" height="250vh"/>
-  <img src="images\alignment\nearest-scan-frame.png" alt="Nearest scan frame" height="250vh"/>
+  <img src="images/alignment/lab-scan-lemon.gif" alt="Example of a scanning video" height="250vh"/>
+  <img src="images/alignment/nearest-scan-frame.png" alt="Nearest scan frame" height="250vh"/>
 </p>
 
 The selected angle was chosen after scoring each frame and then performing the binning procedure.
 <p align="center">
-  <img src="images\alignment\raw-scores.png" alt="Raw frame scores" height="250vh"/>
-  <img src="images\alignment\binned-scores.png" alt="Binned scores" height="250vh"/>
+  <img src="images/alignment/raw-scores.png" alt="Raw frame scores" height="250vh"/>
+  <img src="images/alignment/binned-scores.png" alt="Binned scores" height="250vh"/>
 </p>
 
 The encoder choice and methodology were chosen after experimenting with multiple options. A standalone repository containing the experimental code is located at https://github.com/jaron-cui/camera-frame-alignment.
+
+### Outcome
+The resultant alignment function works to a limited degree in a controlled environment with the lemon pickup data. It was not tested with other policies. The behavior of the function is very stable in a given environment, but not always correct.
+
+One problem with the procedure lies in the generality of the pretrained image encoder. The encoder captures features of the reference images that appear frequently, including those which are not the intended subject. In the case of lemon pickup, there is almost always a proximal, flat surface, such as a table, dominantly present in the scene. Through testing, it is clear that the alignment function will almost always prefer to point towards a large, empty table rather than a lemon in a cluttered pile if given the choice.
+
+The most pressing subject in need of study is a way to prioritize matching to the features most pertinent to the task over incidental correlations.
 
 ## DynaMem-based alignment {Akshat}
 ## Navigation {Akshat}
