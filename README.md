@@ -195,31 +195,37 @@ After the videos are collected, they are compressed, and translation (linear mov
 
 ### Stage 1. Action Tokenization
 
-The translation, rotation, and gripper values extracted from each frame in each video are used as actions. When we want to perform a certain task, there are often multiple ways to do it. Transformer-based models are very good at capturing this multi-modality and associating different and relevant parts of the input with each other. However, transformer-based models usually work with discrete data. To train a language model, for instance, the text is split into discrete units named tokens, these tokens are converted into embedding vectors to represent each token with a vector (list of numbers), and these embedding vectors are transformed further with another linear layer. In our case, the action values are all continuous. So, to make these continuous actions compatible with a transformer model, we need to tokenize them. 
+The translation (x, y, z), rotation ($q_x$, $q_y$, $q_z$, $q_w$), and gripper (g) values that are extracted from each frame for each video are used as actions. When we want to perform a certain task, there are often multiple ways to do it. Transformer-based models are very good at capturing this multi-modality and associating different and relevant parts of the input with each other. However, transformer-based models usually work with discrete data. To train a language model, for instance, the text is split into discrete units named tokens, these tokens are converted into embedding vectors to represent each token with a vector (list of numbers), and these embedding vectors are transformed further with another linear layer. In our case, the action values are all continuous. So, to make these continuous actions compatible with a transformer model, we need to tokenize them. 
 
 There are different ways to do this. One way is to simply use K-Means clustering to cluster the continuous actions and treat each cluster as a discrete unit/token. However, this method is inefficient for high-dimensional action spaces. It doesn't scale well for long action sequences. It lacks gradient information and it struggles with modeling long-range dependencies in action sequences In addition, K-Means create hard boundaries between clusters. []
 
-One other method we can use to tokenize the continuous actions is Vector Quantization. In this method, a list of vectors named codebook vectors are initialized randomly and this list of codebook vectors and a neural network model learns to map an action to the nearest representative codebook vector which can be seen as the discrete representation of the continuous action. This neural network is called the Residual VQ Encoder.
+One other method that can used to tokenize the continuous actions is Vector Quantization. In this method, a neural network model is used to extract the features of the continous action values. This is called Residual VQ Encoder. In addition, a list of vectors is initialized randomly and these are called codebook vectors. A codebook vector can be seen as the discrete representation of the continuous action. There is also a process named quantization which is basically mapping the outputs of the RVQ Encoder to the nearest codebook vector.  
 
-In VQ-BeT, multiple layers of codebooks are used in such a way that the codebook in each layer captures more details that were missed in the previous layers. Assuming that we use $N$ layers, here is how the process works: 
+In VQ-BeT, multiple layers of quantization are used in such a way that the codebook in each layer captures more details about the continuous action that were missed in the previous layers. Assuming that we use $N$ layers, here is how the process works: 
 
-1) The continuous action $x$ is quantized with the first codebook to $q_1$
-2) The difference between the continuous action $x$ and $q_1$ is quantized with the second codebook to $q_2$ 
-3) The difference between the continuous action $x$ and $q_1$ + $q_2$ is quantized with the third codebook to $q_3$ 
+1) After a continuous action is encoded into a latent vector $x$ by RVQ Encoder, this latent vector is compared with all vectors of the 1st codebook.
+2) The codebook vector that is most similar to the latent vector $x$ is found and this codebook vector becomes the quantized output of the action in the 1st layer. The index of this codebook vector is called "primary code" for the input action.
+3) The difference (residuals) between the latent vector $x$ and quantized output of the 1st layer is passed to the 2nd layer.
+4) The codebook vector in the 2nd codebook that is closest to the residuals is found and the idnex of this codebook vector is called "secondary code" for the input action. 
 4) This process continues until quantizing the residuals $N-1$ times.
 
-After this, another model tries to reconstruct the original continuous action from the quantized representation of this action. This model is called the Residual VQ Decoder. 
+Because the difference (residuals) between the continuous action $x$ and the quantized outputs from the previous layer(s) are used in each layer, this is called Residual Vector Quantization (RVQ). 
 
-During the training process of RVQ, the parameters of the encoder and decoder and the codebooks are updated according to these 3 main goals: 
+After this process is done, another neural network model tries to reconstruct the original continuous action from the quantized representations of each layer. This model is called the Residual VQ Decoder []. 
 
-1) The difference between the reconstructed continuous action and the original continuous action should be minimal.
-2) The codebook vectors should be moved closer to the encoder outputs 
-3) The encoder outputs should be moved closer to codebook vectors
-
-This mechanism allows both the encoder and codebook to adapt to each other simultaneously and it allows for extracting meaningful action patterns to be found without the need for them to be predefined []. 
-
+During the training of RVQ, the encoder outputs of different actions can be assigned to the same codebook vector. For updating that codebook vector, the average of all encoder outputs that are assigned to that codebook vector is taken and the codebook vector is updated as a weighted average. By using this approach, codebook vectors adapt to represent the distribution of actions over time. 
 
 ### Stage 2. Learning VQ-BeT
+
+MinGPT is a minimal representation of the GPT that is used to predict the next token. In VQ-BeT, the sequence of image frames (observation sequence) extracted from the collected videos is used as input to MinGPT. The output of the MinGPT is used as input to a layer (Code Predictor head) and this layer produces a probability distribution over all possible primary codes (index of the codebook vector in the 1st codebook that is closest to the input action), a probability distribution over all possible secondary codes (index of the codebook in the 2nd codebook that is closest to the input action), etc. In other words, a probability distribution of the indices of the code vectors is predicted for each quantization layer.
+
+Instead of choosing the code vector that was assigned the highest probability, a code vector is sampled from the probability distribution over all code vectors for each quantization layer. This introduces controlled randomness that allows exploration and helps the model avoid getting stuck in repetitive behaviors. Then the difference between the code vector predicted by the MinGPT and Code Predictor head based on the observation sequence and the code vector that is assigned to the observation sequence by the RVQ are minimized for each quantization layer. 
+
+In addition, the codebook vectors that are predicted by the MinGPT and Code Prediction head for each quantization layer based on the sequence of observations are combined and decoded to an action with the RVQ Decoder that was trained in Stage 1.
+
+Lastly, a discrete unit can only represent a limited amount of information. Therefore, when a continuous action is converted into discrete tokens (code vectors), and these discrete tokens are used to reconstruct the continuous action, the loss of information in the continuous action is inevitable during the reconstruction process. To solve this issue, the output of the MinGPT is used as input to another layer that is used to produce small continuous adjustments for each possible code vector for each codebook in all quantization layers. These small continuous adjustments are called offsets. 
+
+After the probability distribution of the indices of the codebook vectors are predicted by the MinGPT and Code Predictor head for each quantization layer and a codebook vector is sampled from these distributions, the offsets that are predicted by the Offset head for each quantization layer and that belong to the selected codebook vectors are combined by summation and this is added to the decoded action. This decoded and adjusted action is then compared with the ground truth action and the difference between them is minimized during the training process.
 
 
 # Results/Conclusions
