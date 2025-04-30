@@ -130,7 +130,13 @@ An example of the video for picking up the lemon and sorting the lemon be seen i
   Figure 3: Lemon Sorting
 </p>
 
-After collecting the demos, which roughly takes $\mathcal{O}(1)$ hours, it is the data preprocessing stage.
+After collecting the demos, which roughly takes $\mathcal{O}(1)$ hours, it is the data preprocessing and training stage.
+
+During data preprocessing, video is compressed, and a seven dimensional action vector is extracted, which includes three that parameterizes linear motion and four that parameterizes rotation (quaternions) and a gripper value. It turns out that extrating the gripper width can be difficult at times and not entirely robust to novel situations, we encountered some difficulties there.
+
+The training stage is two fold, the first step is using a clustering algorithm to discretize the action (vqvae), and the second stage is training the behavior transformer (vqbet) using this discretization. Notebly, the first stage have a gpu speed up but have very low gpu usage, so it is not Greene friendly. The second stage roughly takes 4 rtx8000 in <5 days.
+
+Deployment is rather straightforward where we move the model weights to the stretch robot and run deployment code. There is a nice UI that we have used and modified for our project.
 
 ## Data collection {Jaron}
 
@@ -179,7 +185,8 @@ This mechanism allows both the encoder and codebook to adapt to each other simul
 
 # Results/Conclusions
 ## Recap successes/failures of individual experiments/ideas + analysis
-TODO: Add respective notes into this section
+### Occlusion problem
+### Gripper value problem
 ## Implications of these successes/failures
 ## Future work?
 
