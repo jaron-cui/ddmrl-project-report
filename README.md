@@ -4,7 +4,7 @@ TODO: <Flowcharts/graphs>
 Robot Utility Models are... <brief and concise description of RUMs>
 
 ## Project Objectives
-Robot Utility Models are able to complete individual short-term tasks by cloning expert demonstrations. We seek to investigate and expand the capabilities they provide in regards to multimodality and task complexity.
+Robot Utility Models (RUM) have demonstrated its ability to complete individual short-term tasks and generalize robustly to out of distribution environments via behaviour cloning. We seek to investigate and expand the capabilities of RUM in regards to multimodality and task complexity.
 
 RUMs uses BeT, which has been shown to be able to learn multimodal actions. We aim to test the extent of this capability with a distinctly multimodal task: sorting items based on their visual appearance into location-specific receptacles. RUMs has not yet been tested on such an explicitly forked task conditioned on visual indicators.
 
@@ -21,6 +21,7 @@ The expected contributions of the project include:
 
 # Experiments/Processes
 ## Describe initial ideation stage (cups/cabinet stuff) {Alex}
+The project started with an idea curation phase, where the current RUM is able to pick up bag and tissue, open door and drawer, and reorient fallen objects on the table. Given our proposal to extend RUM's capability and to explore more complex home tasks, our idea is to first select a task that is adjacent to established possible tasks, and then compose that task with some natural extension. Pick up tasks seems the most natural for us, and in terms of common home task, our first idea is to have a bottle/can/cup pick up policy, and the composition task will be placing cups in cabinet. Here we will train: a) a cup pickup policy, b) a cabinet open policy, c) a cup placing policy. The main obstacle here is navigation and object occlusion: while pick up by itself should be straight forward, interacting with the cabinet requires acting at different height and placing cups require overcoming occlusion caused by the form factor of cups. Other natural tasks, such as taking cans out of the fridge, have simliar navigational challenges. We therefore realized that a more suitable task would invovle common objects, preferably those small in size so as to reduce occlusion, and a compositional task that requries minimal navigation. Picking fruits naturally came up, and we decided that we will have a pick up policy for lemon and lime, and the compositional task will be sorting them. More detailed description and variations are presented below.
 ## Lemon pickup policy {Alex}
 ## Lemon/lime sorting (left/right) {Alex/Jaron}
 ## Lemon/Lime Sorting with Labeled Bowls {Jaron}
