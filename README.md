@@ -178,14 +178,13 @@ During the training of RVQ, the encoder outputs of different actions can be assi
 
 ### Stage 2. Learning VQ-BeT
 
-MinGPT is a minimal representation of the GPT that is used to predict the next token. In VQ-BeT, the sequence of image frames (observation sequence) extracted from the collected videos are used as input to MinGPT. The output of the MinGPT is used as input to a layer (Code Predictor head) and this layer produces a probability distribution over all possible primary codes (index of the codebook vector in the 1st codebook that is closest to the input action), probability distribution over all possible secondary codes (index of the codebook in the 2nd codebook that is closest to the input action), etc. In other words, a probability distribution of the indices of the code vectors is predicted for each qunatization layer.
+MinGPT is a minimal representation of the GPT that is used to predict the next token. In VQ-BeT, the sequence of image frames (observation sequence) extracted from the collected videos is used as input to MinGPT. The output of the MinGPT is used as input to a layer (Code Predictor head) and this layer produces a probability distribution over all possible primary codes (index of the codebook vector in the 1st codebook that is closest to the input action), a probability distribution over all possible secondary codes (index of the codebook in the 2nd codebook that is closest to the input action), etc. In other words, a probability distribution of the indices of the code vectors is predicted for each quantization layer.
 
-Instead of choosing the code vector that was assigned the highest probability, a code vector is sampled from the probability distribution over all code vectors for each quantization layer. This introduces controlled randomnes that allows exploration and helps the model avoid getting stuck in repetitive behaviors. Then the difference between the code vector predicted by the MinGPT and Code Predictor head based on the observation sequence and the code vector that is assigned to the observation sequence by the RVQ are is minimized for each quantization layer. 
+Instead of choosing the code vector that was assigned the highest probability, a code vector is sampled from the probability distribution over all code vectors for each quantization layer. This introduces controlled randomness that allows exploration and helps the model avoid getting stuck in repetitive behaviors. Then the difference between the code vector predicted by the MinGPT and Code Predictor head based on the observation sequence and the code vector that is assigned to the observation sequence by the RVQ are minimized for each quantization layer. 
 
 In addition, the codebook vectors that are predicted by the MinGPT and Code Prediction head for each qunatization layer based on the sequence of observations are combined and decoded with RVQ Decoder that was trained in Stage 1.
 
 Lastly, 
-
 
 
 
