@@ -52,7 +52,7 @@ Training demonstrations can be performed such that we are able to modify the app
 
 From these "generic" demonstrations, we can produce lemon-sorting demonstrations by changing the sign on the destination bowl to appear as the lemon label and color-shifting the held fruit to resemble a lemon. We can likewise produce lime-sorting demonstrations by changing the sign to the lime label and color-shifting the held fruit to resemble a lime.
 
-Training demonstrations are performed with ARUCO fiducials that facilitate label substitution. A lemon is placed into either the left or right bowl. The same ARUCO marker is always placed on destination bowl. With this procedure, lemon-sorting demonstrations can be produced by drawing the lemon label atop the ARUCO marker, and lime-sorting demonstrations can be produced by inserting the lime label and color-shifting the lemon.
+Training demonstrations are performed with ARUCO fiducials that facilitate label substitution. A lemon is placed into either the left or right bowl. The same ARUCO marker is always associated with the destination bowl. With this procedure, lemon-sorting demonstrations can be produced by drawing the lemon label atop the ARUCO marker, and lime-sorting demonstrations can be produced by inserting the lime label and color-shifting the lemon.
 
 The raw sample (left), the derived lemon sorting sample (center), and the derived lime sorting sample (right).
 <p align="center">
