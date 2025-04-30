@@ -120,11 +120,11 @@ An example of the video for picking up the lemon and sorting the lemon be seen i
 
 
 <p align="center">
-  <img src="images/rum.png" alt="Rum Training" />
+  <img src="images/vq-bet.png" alt="VQ-BeT Training" />
 </p>
 
 <p align="center">
-  Figure 4: Rum Training
+  Figure 4: VQ-BeT Training
 </p>
 
 
@@ -136,7 +136,11 @@ The translation, rotation, and gripper values extracted from each frame in each 
 
 There are different ways to do this. One way is to simply use K-Means clustering to cluster the continous actions and treat each cluster as a discrete unit/token. However,this method is inefficient for high dimensional action spaces. It doesn't scale well for long action sequences. It lacks gradient information and it struggles with modeling long range dependencies in action sequences In addition, K-Means create hard boundaries between clusters. []
 
+One other method we can use to tokenize the continous actions is Vector Quantization. 
+
 ### Stage 2. Learning VQ-BeT
+
+
 
 
 # Results/Conclusions
