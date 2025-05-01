@@ -216,9 +216,11 @@ The ARUCO lemon/lime sorting task starts with a gripper grasping a lemon in fron
 </p>
 
 
-During the data collection, RGB videos are collected with an iPhone when the lemons are picked up and lemons and limes are sorted with the portable data collection tool. In addition, translation (linear movement of the robot's gripper), and rotation (how the gripper is rotated in space relative to a reference frame) are collected. 
+During the data collection process, RGB videos, translation (linear movement of the robot's gripper), and rotation (how the gripper is rotated in space relative to a reference frame) are are collected with an iPhone when the lemons are picked up and lemons and limes are sorted with the portable data collection tool. 
 
-The gripper values (representing how open or closed the gripper is while holding a lemon or lime) are predicted from the video frames with an RGB-based model and translation, rotation, and gripper values are automatically synchronized and timestamped by the iPhone without needing any calibration [1]. 
+After this, the gripper values (representing how open or closed the gripper is while holding a lemon or lime) are predicted from the video frames with an RGB-based model. 
+
+In addition, translation, rotation, and gripper values are automatically synchronized and timestamped by the iPhone without needing any calibration [1]. 
 
 After the data is collected, the videos are compressed, and translation, rotation, and gripper values are extracted and these are used as actions. 
 
@@ -226,7 +228,7 @@ After the data is collected, the videos are compressed, and translation, rotatio
 
 In daily life, when we want to perform a certain task, there are often multiple ways to do it. Transformer-based models are very good at capturing this multi-modality and associating different and relevant parts of the input with each other. However, they usually work with discrete data. To train a language model, for instance, the text is split into discrete units named tokens, these tokens are converted into embedding vectors to represent each token with a vector (list of numbers), and these embedding vectors are transformed further with another layer. 
 
-In our case, the sequence of translation (x, y, z), rotation ($q_x$, $q_y$, $q_z$, $q_w$), and gripper (g) values that are extracted from each video are used as actions and these values are all continuous. So, to make these continuous actions compatible with a transformer model, we need to tokenize them. 
+In our case, the sequence of translation (x, y, z), rotation ($q_x$, $q_y$, $q_z$, $q_w$), and gripper (g) values that are extracted from each video are used as actions and these values are all continuous. So, to make these continuous actions compatible with a transformer model, they need to be tokenized. 
 
 There are different ways to do this. One way is to use K-Means clustering [2] to represent similar continuous actions in different groups/clusters and treat each cluster as a discrete unit/token. However, this method is inefficient for high-dimensional action spaces. It doesn't scale well for long action sequences. It lacks gradient information and it struggles with modeling long-range dependencies in action sequences In addition, K-Means creates hard boundaries between clusters. [4]
 
