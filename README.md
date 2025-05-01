@@ -216,9 +216,11 @@ The ARUCO lemon/lime sorting task starts with a gripper grasping a lemon in fron
 </p>
 
 
-During the data collection, RGB videos are collected with an iPhone when the lemons are picked up and lemons and limes are sorted with the portable data collection tool. In addition, translation (linear movement of the robot's gripper), and rotation (how the gripper is rotated in space relative to a reference frame) are collected. In addition, the gripper values (representing how open or closed the gripper is while holding a lemon or lime) are predicted from the video frames with an RGB-based model. Lastly, translation, rotation, and gripper values are automatically synchronized and timestamped by the iPhone without needing any calibration [1]. 
+During the data collection, RGB videos are collected with an iPhone when the lemons are picked up and lemons and limes are sorted with the portable data collection tool. In addition, translation (linear movement of the robot's gripper), and rotation (how the gripper is rotated in space relative to a reference frame) are collected. 
 
-After the data is collected, the videos are compressed, and translation, rotation, and gripper values are extracted.
+The gripper values (representing how open or closed the gripper is while holding a lemon or lime) are predicted from the video frames with an RGB-based model and translation, rotation, and gripper values are automatically synchronized and timestamped by the iPhone without needing any calibration [1]. 
+
+After the data is collected, the videos are compressed, and translation, rotation, and gripper values are extracted and these are used as actions. 
 
 ### Stage 1. Action Tokenization
 
