@@ -183,7 +183,7 @@ To take action on visual memory, we implemented a navigation routine that aligns
 
 We successfully demonstrated small-horizon object-centric navigation using vision-language memory. This sets the stage for integrating compositional RUM policies that act on semantic references in the environment—e.g., "pick up the lemon and place it in the left bowl."
 
-A key area for improvement, Trhe voxel memory stores observations locally from the headcam's frame which limits persistence and spatial consistency. Objects observed in earlier rotations are forgotten. Integrating SLAM to build a persistent world model would allow the robot to remember and revisit locations. We have tried adding ORB-SLAM3 but we were yet to test out its capabilities
+A key area for improvement, the voxel memory stores observations locally from the headcam's frame which limits persistence and spatial consistency. Objects observed in earlier rotations are forgotten. Integrating SLAM to build a persistent world model would allow the robot to remember and revisit locations. We have tried adding ORB-SLAM3 but we were yet to test out its capabilities
 
 We also look to improve our alignment function with active perception, with scene priors. As when attempting practical compositional RUM tasks, where similar task would be aligned at similar locations / setup.
 
