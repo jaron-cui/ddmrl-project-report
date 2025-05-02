@@ -154,10 +154,10 @@ Chaining multiple RUM policies—for instance, find lemon -> move it to bowl -> 
 
 This motivated us to develop a lightweight memory and navigation system, which enables the robot to search, align, and act based on natural language queries. The system we present here is a first step toward making RUM policies modular, composable, and environment-aware.
 
-### Object based aligment {Akshat}
+### Object based alignment {Akshat}
 
 
-To enable scene level understanding for object-centric aligment, we integrated the Intel RealSense D435i depth camera with the Stretch 3 robot. We developed a dynamic memory module that processes the RGB-D stream from the head-mounted camera using SAMv2 for segmentation and CLIP for generating semantic embeddings. These embeddings, along with the estimated 3D positions of each segmented object, are stored in a voxel-based memory map
+To enable scene level understanding for object-centric alignment, we integrated the Intel RealSense D435i depth camera with the Stretch 3 robot. We developed a dynamic memory module that processes the RGB-D stream from the head-mounted camera using SAMv2 for segmentation and CLIP for generating semantic embeddings. These embeddings, along with the estimated 3D positions of each segmented object, are stored in a voxel-based memory map
 
 <img src="./images/dynamem/memory-store.png" alt="Memory store setup" height="250vh"/>
 
@@ -169,7 +169,7 @@ One of the key success factors in executing RUM policies is having the correct s
 
 To take action on visual memory, we implemented a navigation routine that aligns robot movement with queried object locations. The function accounts for the fact that the robot’s base movement is perpendicular to its camera’s field of view. It rotates the robot by 90°, moves toward the stored object location, and then rotates back—ensuring accurate object reachability.
 
-<img src="./images/dynamem/robot-navigation.png" alt="re-aligment" height="250vh"/>
+<img src="./images/dynamem/robot-navigation.png" alt="re-alignment" height="250vh"/>
 
  Further, we develop a `find` function enables iterative search for objects beyond the current scene. If the queried object is not found immediately, the robot rotates in 72° increments (just under the 87° FoV of the RealSense D435i) and scans the new field of view. This loop continues until the object is located or a full 360° rotation is complete.
 
@@ -177,7 +177,7 @@ To take action on visual memory, we implemented a navigation routine that aligns
 
 <img src="./images/dynamem/navigation-control.png" alt="navigations control" height="250vh"/>
 
-### Outcome
+### Outcome 
 
 <img src="./images/dynamem/Object-nav-faster-gif.gif" alt="small horizon navigation" height="250vh"/>
 
@@ -185,7 +185,7 @@ We successfully demonstrated small-horizon object-centric navigation using visio
 
 A key area for improvement, Trhe voxel memory stores observations locally from the headcam's frame which limits persistence and spatial consistency. Objects observed in earlier rotations are forgotten. Integrating SLAM to build a persistent world model would allow the robot to remember and revisit locations. We have tried adding ORB-SLAM3 but we were yet to test out its capabilities
 
-We also look to improve our aligment function with active perception, with scene priors. As when attempting practical compositional RUM tasks, where similar task would be aligned at similar locations / setup.
+We also look to improve our alignment function with active perception, with scene priors. As when attempting practical compositional RUM tasks, where similar task would be aligned at similar locations / setup.
 
 ## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
 
