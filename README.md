@@ -137,8 +137,23 @@ One problem with the procedure lies in the generality of the pretrained image en
 
 The most pressing subject in need of study is a way to prioritize matching to the features most pertinent to the task over incidental correlations.
 
-## DynaMem-based alignment {Akshat}
-## Navigation {Akshat}
+## Step Towards - Compositional RUM {Akshat}
+### Motivation
+
+Building on our intial ideal
+
+### Object based aligment {Akshat}
+
+<img src="./images/dynamem/memory-store.png" alt="Memory store setup" height="250vh"/>
+
+### Navigation for Small Horizon Tasks {Akshat}
+
+<img src="./images/dynamem/robot-navigation.png" alt="navigations control" height="250vh"/>
+
+<img src="./images/dynamem/navigation-control.png" alt="navigations control" height="250vh"/>
+
+<img src="./images/dynamem/Object-nav-faster-gif.gif" alt="navigations control" height="250vh"/>
+
 ## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
 
 <p align="center">
