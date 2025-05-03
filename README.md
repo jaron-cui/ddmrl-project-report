@@ -33,13 +33,9 @@ Besides task selection, we also need to overcome the technical challenge of task
   <img src="images/cup_pick_up_frames/ezgif-frame-079.png" width="150" />
 </p>
 
-<<<<<<< HEAD
 ## Lemon Pickup Policy *(Alex)*
-This is the first policy we trained, where we familiarized ourselves with the data collection procedure, and this policy can be seen as replicating existing result, since it is just a simple pick up task, like those already trained. From conversation with Mahi and Haritheja, we understood we needed roughly 500 demos to learn a lemon pick up policy, so we collected lemon pick up in various environments, some of the demos can be seen in the ``overview of policy training procedure'' section. Below we attach a successful policy rollout demonstration (2x speed).
-=======
-## Lemon pickup policy {Alex}
 This is the first policy we trained, where we familiarized ourselves with the data collection procedure, and this policy can be seen as replicating existing result, since it is just a simple pick up task, like those already trained. From conversation with Mahi and Haritheja, we understood we needed roughly 500 demos to learn a lemon pick up policy, so we collected lemon pick up in various environments, some of the demos can be seen in the "overview of policy training procedure" section. Below we attach a successful policy rollout demonstration (2x speed).
->>>>>>> dea913810811a4b8c206aa1d7712dcfaec36e2d7
+
 <p align="center">
   <img src="images/lemon_pick_up.gif" alt="lemon_pick_up" height="181px"/>
 </p>
