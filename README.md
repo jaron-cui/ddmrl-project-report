@@ -168,6 +168,8 @@ To enable scene level understanding for object-centric alignment, we integrated 
 
  The memory module continuously updates itself with new objects as the robot moves around, allowing it to later observed objects using natural language queries. The above pipeline shows, when prompted with “Monitor” the robot searches the memory for matching embeddings and retrieves the 3D location of the closest match.
 
+ Intial test setups on publically available RGBD datasets - [ https://github.com/Tulsani/voxel-maps ]
+
 ### Navigation for Small Horizon Tasks *(Akshat)*
 
 One of the key success factors in executing RUM policies is having the correct starting orientations of the robot
@@ -191,6 +193,8 @@ We successfully demonstrated small-horizon object-centric navigation using visio
 A key area for improvement, the voxel memory stores observations locally from the headcam's frame which limits persistence and spatial consistency. Objects observed in earlier rotations are forgotten. Integrating SLAM to build a persistent world model would allow the robot to remember and revisit locations. We have tried adding ORB-SLAM3 but we were yet to test out its capabilities
 
 We also look to improve our alignment function with active perception, with scene priors. As when attempting practical compositional RUM tasks, where similar task would be aligned at similar locations / setup.
+
+Integeration for seperate thread for processing the RGBD headcam image stream - updates to robot server code to support headcam - setting up the voxel memory can be found here for future reference ( https://github.com/NYU-robot-learning/min-stretch/tree/jafa-ftr-dynamem )
 
 ## Overview of policy training procedure (data collection -> training -> deployment) *(Furkan)*
 
