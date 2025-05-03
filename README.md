@@ -1,8 +1,8 @@
 # Intro/Motivation
-## Context {Furkan}
+## Context *(Furkan)*
 Robot Utility Models is a framework for collecting versatile data with portable data collection tools that allow collecting data from different environments in an efficient and quick way, using these data to train an imitation-learning policy that can generalize to new environments, and deploying these policies on Hello Robot Stretch robot. [1]
 
-## Project Objectives
+## Project Objectives *(Jaron)*
 Robot Utility Models are able to perform individual short-term tasks learned from expert demonstrations. We seek to investigate and expand the capabilities they provide in regards to multimodality and task complexity.
 
 RUMs uses BeT, which has been shown to be able to learn multimodal actions. We aim to test the extent of this capability with a distinctly multimodal task: sorting items based on their visual appearance into location-specific receptacles. RUMs has not yet been tested on such an explicitly forked task conditioned on visual indicators.
@@ -18,8 +18,8 @@ The expected contributions of the project include:
 2. An implementation of task composition.
 3. The integration of navigation capabilities with RUMs.
 
-# Experiments/Processes
-## Describe initial ideation stage (cups/cabinet stuff) {Alex}
+# Experiments / Procedures
+## Initial Ideation Stage *(Alex)*
 The project started with an idea curation phase, where the current RUM is able to pick up bag and tissue, open door and drawer, and reorient fallen objects on the table. Given our proposal to extend RUM's capability and to explore more complex home tasks, our idea is to first select a task that is adjacent to established possible tasks, and then compose that task with some natural extension. 
 
 In terms of task selection, our first idea is to have a bottle/can/cup pick up policy, and the composition task will be placing cups in cabinet. Here we will train: a) a cup pickup policy, b) a cabinet open policy, c) a cup placing policy. The main obstacle here is navigation and object occlusion: while pick up by itself should be straightforward, interacting with the cabinet requires acting at different height and placing cups require overcoming occlusion caused by the form factor of cups. Other natural tasks, such as taking cans out of the fridge, have similar navigational challenges. We therefore realized that a more suitable task would involve common objects, preferably those small in size so as to reduce occlusion, and a compositional task that requires minimal navigation. Picking fruits naturally came up, and we decided that we will have a pick up policy for lemon and lime, and the compositional task will be sorting them. More detailed description and variations are presented below. [insert image for cup pick up to demonstrate occlusion]
@@ -33,13 +33,13 @@ Besides task selection, we also need to overcome the technical challenge of task
   <img src="images/cup_pick_up_frames/ezgif-frame-079.png" width="150" />
 </p>
 
-## Lemon pickup policy {Alex}
+## Lemon Pickup Policy *(Alex)*
 This is the first policy we trained, where we familiarized ourselves with the data collection procedure, and this policy can be seen as replicating existing result, since it is just a simple pick up task, like those already trained. From conversation with Mahi and Haritheja, we understood we needed roughly 500 demos to learn a lemon pick up policy, so we collected lemon pick up in various environments, some of the demos can be seen in the ``overview of policy training procedure'' section. Below we attach a successful policy rollout demonstration (2x speed).
 <p align="center">
   <img src="images/lemon_pick_up.gif" alt="lemon_pick_up" height="181px"/>
 </p>
 
-## Lemon/lime sorting (left/right) {Alex/Jaron}
+## Lemon Lime Sorting (Left/Right) *(Alex/Jaron)*
 This task is the first variant of sorting lemon and lime, where the idea is heavily inspired from Mahi. It has the advantage of conceptually simple and easy to collect data while compared to the labeled bowls sorting it is less data efficient, see next section for more detail.
 
 The task is as follows: the stretch robot starts with a lemon/lime in its gripper, with two containers in front of it, and the task is to put the lemon/lime in the left/right container respectively. Alternatively, this task can be seen as a placing policy that is condition on fruit variety where the placing locaiton is fixed, in the next variant the we relaxes the second constraint. This task can also be seen as a combination of two separate task where each sorts lemon and lime respectively, and in that case one could imagine using a higher level policy to decide which sub-policy to trigger. The environmental diversity/out of distribution generalization comes in the form of a) different containers, b) different table top, c) different approach directions. While lemon and lime also comes in variations, the variations are much more minor than that of the other factors. In our data collection, to insure robustness, we made sure to consider variation and combination of the containers, such as swapping the left and right container, and we made sure to use different table top to record our demo. We also had different appraoch directions, though at the present moment whether we have under-collected the number of demos given our dataset diversity, more discussion in the results/conclusion section. 
@@ -51,7 +51,7 @@ Our first training involved around 1.5k demos, however that seems to not be enou
 </p>
 
 
-## Lemon/Lime Sorting with Labeled Bowls {Jaron}
+## Lemon/Lime Sorting with Labeled Bowls *(Jaron)*
 ### Idea
 The first sorting policy is visually conditioned to direct an object to a set relative location (left/right). We consider a version of this task where the sorting destination is not fixed. Picture 'lemon' and 'lime' signs affixed to each bowl.
 
@@ -96,7 +96,7 @@ The full implementation of ARUCO tracking and custom image transformations resid
 ### Outcome
 Due to time constraints and problems with the vanilla left/right lemon/lime sorting policy, we were unable to train and test a policy on the transformed data. However, we were able to learn techniques for data processing and the importance of small-scale pre-testing.
 
-## Image Encoding-based alignment {Jaron}
+## Image Encoding-based alignment *(Jaron)*
 ### Motivation
 Given RUM policies for various simple tasks, composing compound tasks requires a robust chaining method. The behavior of each individual task policy is sensitive to the deployment environment. If the model receives out-of-distribution observations, we can expect it to perform poorly. Thus, it is important that the robot realigns itself after completing a subtask such that the following is presented with an appropriate initial observation.
 
@@ -138,9 +138,9 @@ The resultant alignment function works to a limited degree in a controlled envir
 
 One problem with the procedure lies in the generality of the pretrained image encoder. The encoder captures features of the reference images that appear frequently, including those which are not the intended subject. In the case of lemon pickup, there is almost always a proximal, flat surface, such as a table, dominantly present in the scene. Through testing, it is clear that the alignment function will almost always prefer to point towards a large, empty table rather than a lemon in a cluttered pile if given the choice.
 
-The most pressing subject in need of study is a way to prioritize matching to the features most pertinent to the task over incidental correlations.
+The most important improvement needed to make this alignment function practical is a way to prioritize matching to the features most pertinent to the task over incidental correlations.
 
-## Step Towards - Compositional RUM {Akshat}
+## Step Towards - Compositional RUM *(Akshat)*
 ### Motivation
 
 Robot Utility Models (RUM) are powerful tools for executing semantic tasks like "pick up the lemon" or "sort the fruits," but their success is highly dependent on the initial scene configuration. In most standard deployments, RUM policies are trained and tested in fixed environments where the relevant objects are already visible and well-aligned within the robot’s field of view.
@@ -157,7 +157,7 @@ Chaining multiple RUM policies—for instance, find lemon -> move it to bowl -> 
 
 This motivated us to develop a lightweight memory and navigation system, which enables the robot to search, align, and act based on natural language queries. The system we present here is a first step toward making RUM policies modular, composable, and environment-aware.
 
-### Object based alignment {Akshat}
+### Object-Based Alignment *(Akshat)*
 
 
 To enable scene level understanding for object-centric alignment, we integrated the Intel RealSense D435i depth camera with the Stretch 3 robot. We developed a dynamic memory module that processes the RGB-D stream from the head-mounted camera using SAMv2 for segmentation and CLIP for generating semantic embeddings. These embeddings, along with the estimated 3D positions of each segmented object, are stored in a voxel-based memory map
@@ -166,7 +166,7 @@ To enable scene level understanding for object-centric alignment, we integrated 
 
  The memory module continuously updates itself with new objects as the robot moves around, allowing it to later observed objects using natural language queries. The above pipeline shows, when prompted with “Monitor” the robot searches the memory for matching embeddings and retrieves the 3D location of the closest match.
 
-### Navigation for Small Horizon Tasks {Akshat}
+### Navigation for Small Horizon Tasks *(Akshat)*
 
 One of the key success factors in executing RUM policies is having the correct starting orientations of the robot
 
@@ -190,7 +190,7 @@ A key area for improvement, the voxel memory stores observations locally from th
 
 We also look to improve our alignment function with active perception, with scene priors. As when attempting practical compositional RUM tasks, where similar task would be aligned at similar locations / setup.
 
-## Overview of policy training procedure (data collection -> training -> deployment) {Alex/Furkan}
+## Overview of policy training procedure (data collection -> training -> deployment) *(Furkan)*
 
 <p align="center">
   <img src="images/training-and-deployment.png" alt="Training and Deployment" />
@@ -236,7 +236,7 @@ The training stage is two fold, the first step is using a clustering algorithm t
 
 Deployment is rather straightforward where we move the model weights to the stretch robot and run deployment code. There is a nice UI that we have used and modified for our project.
 
-## Data Collection {Jaron}
+## Data Collection *(Jaron)*
 The majority of collected data is thoroughly documented in the Google Doc [Task Data Descriptions](https://docs.google.com/document/d/1YCe_gprSHMkfH2Gd2knWuvQBa5XBqS2Zd7mPv_3KrRY/edit?usp=sharing) (visible to NYU accounts).
 
 ### Lemon Pickup
@@ -255,7 +255,7 @@ The ARUCO lemon/lime sorting task starts with a gripper grasping a lemon in fron
 
 728 samples were collected, but no policy was trained due to delays in image processing implementation and focus on the left/right lemon/lime sorting task.
 
-## Training {Furkan}
+## Training *(Furkan)*
 
 
 <p align="center">
@@ -315,18 +315,41 @@ After the probability distribution of the indices of the codebook vectors are pr
 
 
 # Results/Conclusions
-## Recap successes/failures of individual experiments/ideas + analysis
+## Contributions
+### Lemon/Lime Left/Right Sorting Policy
+During this project, we tested the capabilities of RUMs by training on a more complex task than done previously - sorting.
+While the deployment of the policy had a low success rate, the majority of the failures are related to fine control.
+The sorting policy reliably guided the lemons and limes in the correct directions, but had trouble with deposition.
+This may have to do with the difficulty of locating the rims of bowls when very close - especially considering the visual obstruction of the grasped object.
+
+### Simple Image Encoding-Based Alignment Function
+The image encoding-based alignment function has the advantages of being generalizable and being simple to run.
+No additional data collection is required, since it is trained on the data already collected for a given policy.
+No external context or information about the task is required, for the same reason.
+However, this also means that it is only applicable to tasks for which data has already been collected.
+
+The performance of the alignment function is fairly consistent within a given environment, but is not always correct. The correctness of the encoding similarity scoring function is an area that needs improvement for practical application of the process.
+
+### Text-Prompted Visual Memory Alignment Function
+The text-prompted alignment function uses a more sophisticated encoder than the simple image encoding-based alignment function, as well as a voxel memory module. The use of a wide-range headcam grants greater visibility of the scene than the gripper perspective camera. One advantage of the system is its increased flexibility and tunability, as alignment prompts can be tailored for each policy.
+
+A future improvement would be the integration of persistent memory, such as via the integration of SLAM.
+
+### RUMs Database Expansion
+Overall, our team increased the RUMs V2 Data count by 4,737 samples for various tasks.
+
+## Notable Obstacles
 ### Gripper opening/closing threshold hyperparameter tuning
 During deployment, the model predicts a gripper value, and if that value passes a threshold then the gripper acts to close/open. The policy performance crucially depends on this threshold, which is a hyperparameter in deployment, and one observes in practice that sometimes failure occurs because the threshold is $\epsilon$ above the predicted gripper value and that the gripper value does not necessarily moves in a smooth manner. If this is not due to the policy being undertrained, I wonder if there is a more nature, smoother way to gate gripper behavior. 
 ### Gripper value problem
 It turns out Greene is gpu poor for the students, and since all steps in the training stage requires GPU disjointly it adds to the overhead and wait time. While we had minor problems with quaternion parameterization, the biggest inconsistency seems to be gripper value extraction. It seems to me that using a smaller gripper did not change gripper value extraction, but having the gripper started off open, as in the sorting policy, really messed things up. One temporary fix is to invert the video in the gripper value extraction function as that would make it look like a pick up policy. However this seems to not work as can be seen in the image below: [insert image].
 ### Occlusion problem
 This is not the necessary reason that the policy is performing less than idea, but it is a speculation. Where in the sorting demos, we could see that a) the gripper object is out of focus and b) the target visual cue is sometimes occluded. While problem a does not affect us, one could image situations in which the blurred out texture of gripper object is not enough to differentiate it for the task (perhaps sorting bad lemon from good lemon). Problem b is more serious, where for example in the sorting policy, in the later steps, the information of the location of the gripper is only contained in the rim of the image. A potential solution is to use a longer effective observation horizon in inference, so that the policy can infer the location of the gripper using ``memory''. Due to time constraint this hypothesis remain untested.
-## Implications of these successes/failures
-## Future work?
-## Acknowledgement
 
-# References 
+## Acknowledgement
+Special thanks to Mahi Shafiullah, Haritheja Eturuku, and Lerrel Pinto for making this project possible.
+
+# References
 
 [1] Etukuru, H., Naka, N., Hu, Z., Mehu, J., Edsinger, A., Paxton, C., Chintala, S., Pinto, L., & Shafiullah, N. M. M. (2024). *General Policies for Zero-Shot Deployment in New Environments*. arXiv preprint arXiv:2409.05865. [https://arxiv.org/abs/2409.05865](https://arxiv.org/abs/2409.05865)
 
