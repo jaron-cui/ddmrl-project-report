@@ -47,6 +47,7 @@ The task is as follows: the stretch robot starts with a lemon/lime in its grippe
 Our first training involved around 1.5k demos, however that seems to not be enough, a further 1k demos is collected and the training is currently underway; we also had some hiccups during trainig because of data preprocessing and gpu availability, more discussion in the results/conclusion section. Below we show some test environment rollout and some sample of collected demos.
 
 <p align="center">
+  <img src="images/collected_demo.gif" alt="pick up and sorting" height="240px"/>
   <img src="images/chaining_sorting.gif" alt="pick up and sorting" height="240px"/>
 </p>
 
