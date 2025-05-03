@@ -196,7 +196,7 @@ We also look to improve our alignment function with active perception, with scen
 
 Integeration for seperate thread for processing the RGBD headcam image stream - updates to robot server code to support headcam - setting up the voxel memory can be found here for future reference ( https://github.com/NYU-robot-learning/min-stretch/tree/jafa-ftr-dynamem )
 
-## Overview of policy training procedure (data collection -> training -> deployment) *(Furkan)*
+## Overview of Policy Training Procedure *(Furkan)*
 
 <p align="center">
   <img src="images/training-and-deployment.png" alt="Training and Deployment" />
