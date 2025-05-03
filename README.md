@@ -322,8 +322,8 @@ During deployment, the model predicts a gripper value, and if that value passes 
 ### Gripper value problem
 It turns out Greene is gpu poor for the students, and since all steps in the training stage requires GPU disjointly it adds to the overhead and wait time. While we had minor problems with quaternion parameterization, the biggest inconsistency seems to be gripper value extraction. It seems to me that using a smaller gripper did not change gripper value extraction, but having the gripper started off open, as in the sorting policy, really messed things up. One temporary fix is to invert the video in the gripper value extraction function as that would make it look like a pick up policy. However this seems to not work as can be seen in the image below. We did seem to always have data preprocessing problems.
 <p align="center">
-  <img src="images/H_reprocessed.png" width="400"/>
-  <img src="images/t_reverse.png" width="400" />
+  <img src="images/H_reprocessed.png" width="500"/>
+  <img src="images/t_reverse.png" width="500" />
 </p>
 <p align="center">
   Correct (Left) vs Attempted Fix (Right)
