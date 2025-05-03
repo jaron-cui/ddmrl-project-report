@@ -93,7 +93,7 @@ We map colored labels with blue borders and random variation (in hue, border wid
 
 Note that our 728 "generic" samples all use lemons. The plan was to mask by lemons by location and hue, and then color-shift in order to transmute lemons to limes. Alas, yellow is too varied a color category to easily filter. The example given above is mottled with only mild leakage of green to the bowl in which it is placed, but many other samples taken on light wooden tables have proven infeasible to reliably constrain green within the fruit. We ought to have implemented and tested the image transforms on a few samples before collecting the full dataset. In that case, we would have used a more easily masked color - perhaps by painting a lemon neon pink.
 
-The full implementation of ARUCO tracking and custom image transformations resides at https://github.com/jaron-cui/aruco-label-tracking.
+The full implementation of ARUCO tracking and custom image transformations resides at [https://github.com/jaron-cui/aruco-label-tracking](https://github.com/jaron-cui/aruco-label-tracking).
 
 ### Outcome
 Due to time constraints and problems with the vanilla left/right lemon/lime sorting policy, we were unable to train and test a policy on the transformed data. However, we were able to learn techniques for data processing and the importance of small-scale pre-testing.
@@ -133,7 +133,7 @@ The selected angle was chosen after scoring each frame and then performing the b
   <img src="images/alignment/binned-scores.png" alt="Binned scores" height="250vh"/>
 </p>
 
-The encoder choice and methodology were chosen after experimenting with multiple options. A standalone repository containing the experimental code is located at https://github.com/jaron-cui/camera-frame-alignment.
+The encoder choice and methodology were chosen after experimenting with multiple options. A standalone repository containing the experimental code is located at [https://github.com/jaron-cui/camera-frame-alignment](https://github.com/jaron-cui/camera-frame-alignment).
 
 ### Outcome
 The resultant alignment function works to a limited degree in a controlled environment with the lemon pickup data. It was not tested with other policies. The behavior of the function is very stable in a given environment, but not always correct.
