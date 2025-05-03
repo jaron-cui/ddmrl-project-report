@@ -46,8 +46,9 @@ The task is as follows: the stretch robot starts with a lemon/lime in its grippe
 
 Our first training involved around 1.5k demos, however that seems to not be enough, a further 1k demos is collected and the training is currently underway; we also had some hiccups during trainig because of data preprocessing and gpu availability, more discussion in the results/conclusion section. Below we show some test environment rollout and some sample of collected demos.
 
-[insert demo for rollout and sample collected demos]
-
+<p align="center">
+  <img src="images/chaining_sorting.gif" alt="pick up and sorting" height="200px"/>
+</p>
 ## Lemon/Lime Sorting with Labeled Bowls {Jaron}
 ### Idea
 The first sorting policy is visually conditioned to direct an object to a set relative location (left/right). We consider a version of this task where the sorting destination is not fixed. Picture 'lemon' and 'lime' signs affixed to each bowl.
