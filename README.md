@@ -34,7 +34,7 @@ Besides task selection, we also need to overcome the technical challenge of task
 </p>
 
 ## Lemon pickup policy {Alex}
-This is the first policy we trained, where we familiarized ourselves with the data collection procedure, and this policy can be seen as replicating existing result, since it is just a simple pick up task, like those already trained. From conversation with Mahi and Haritheja, we understood we needed roughly 500 demos to learn a lemon pick up policy, so we collected lemon pick up in various environments, some of the demos can be seen in the ``overview of policy training procedure'' section. Below we attach a successful policy rollout demonstration (2x speed).
+This is the first policy we trained, where we familiarized ourselves with the data collection procedure, and this policy can be seen as replicating existing result, since it is just a simple pick up task, like those already trained. From conversation with Mahi and Haritheja, we understood we needed roughly 500 demos to learn a lemon pick up policy, so we collected lemon pick up in various environments, some of the demos can be seen in the "overview of policy training procedure" section. Below we attach a successful policy rollout demonstration (2x speed).
 <p align="center">
   <img src="images/lemon_pick_up.gif" alt="lemon_pick_up" height="181px"/>
 </p>
@@ -231,11 +231,11 @@ An example of the video for picking up the lemon and sorting the lemon be seen i
 
 After collecting the demos, which roughly takes $\mathcal{O}(1)$ hours, it is the data preprocessing and training stage.
 
-During data preprocessing, video is compressed, and a seven dimensional action vector is extracted, which includes three that parameterizes linear motion and four that parameterizes rotation (quaternions) and a gripper value. It turns out that extrating the gripper width can be difficult at times and not entirely robust to novel situations, we encountered some difficulties there.
+During data preprocessing, the video is compressed, and a action vector is extracted, which includes three that parameterizes linear motion and four that parameterizes rotation (quaternions) and a gripper value. It turns out that extrating the gripper width can be difficult at times and not entirely robust to novel situations, we encountered some difficulties there.
 
 The training stage is two fold, the first step is using a clustering algorithm to discretize the action (vqvae), and the second stage is training the behavior transformer (vqbet) using this discretization. Notebly, the first stage have a gpu speed up but have very low gpu usage, so it is not Greene friendly. The second stage roughly takes 4 rtx8000 in <5 days.
 
-Deployment is rather straightforward where we move the model weights to the stretch robot and run deployment code. There is a nice UI that we have used and modified for our project.
+During deployment, we move the model weights to the stretch robot and run the deployment code. There is a nice UI that we have used and modified for our project.
 
 ## Data Collection {Jaron}
 The majority of collected data is thoroughly documented in the Google Doc [Task Data Descriptions](https://docs.google.com/document/d/1YCe_gprSHMkfH2Gd2knWuvQBa5XBqS2Zd7mPv_3KrRY/edit?usp=sharing) (visible to NYU accounts).
@@ -322,11 +322,11 @@ During deployment, the model predicts a gripper value, and if that value passes 
 ### Gripper value problem
 It turns out Greene is gpu poor for the students, and since all steps in the training stage requires GPU disjointly it adds to the overhead and wait time. While we had minor problems with quaternion parameterization, the biggest inconsistency seems to be gripper value extraction. It seems to me that using a smaller gripper did not change gripper value extraction, but having the gripper started off open, as in the sorting policy, really messed things up. One temporary fix is to invert the video in the gripper value extraction function as that would make it look like a pick up policy. However this seems to not work as can be seen in the image below: [insert image].
 ### Occlusion problem
-This is not the necessary reason that the policy is performing less than idea, but it is a speculation. Where in the sorting demos, we could see that a) the gripper object is out of focus and b) the target visual cue is sometimes occluded. While problem a does not affect us, one could image situations in which the blurred out texture of gripper object is not enough to differentiate it for the task (perhaps sorting bad lemon from good lemon). Problem b is more serious, where for example in the sorting policy, in the later steps, the information of the location of the gripper is only contained in the rim of the image. A potential solution is to use a longer effective observation horizon in inference, so that the policy can infer the location of the gripper using ``memory''. Due to time constraint this hypothesis remain untested.
+This is not the necessary reason that the policy is performing less than idea, but it is a speculation. Where in the sorting demos, we could see that a) the gripper object is out of focus and b) the target visual cue is sometimes occluded. While problem a does not affect us, one could image situations in which the blurred out texture of gripper object is not enough to differentiate it for the task (perhaps sorting bad lemon from good lemon). Problem b is more serious, where for example in the sorting policy, in the later steps, the information of the location of the gripper is only contained in the rim of the image. A potential solution is to use a longer effective observation horizon in inference, so that the policy can infer the location of the gripper using "memory". Another solution is during demo collection we can collect in such a way so as to tilt the gripper downwards, revealing the occluded object, This will require many more hours of data collection, but mostly it is unclear whether this would improve the policy. Due to time constraint, neither suggested solution is tested.
 ## Implications of these successes/failures
 ## Future work?
 ## Acknowledgement
-
+We like to thank Haritheja for his _extensive_ technical support and Mahi for his advising on the project.
 # References 
 
 [1] Etukuru, H., Naka, N., Hu, Z., Mehu, J., Edsinger, A., Paxton, C., Chintala, S., Pinto, L., & Shafiullah, N. M. M. (2024). *General Policies for Zero-Shot Deployment in New Environments*. arXiv preprint arXiv:2409.05865. [https://arxiv.org/abs/2409.05865](https://arxiv.org/abs/2409.05865)
