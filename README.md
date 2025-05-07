@@ -56,13 +56,13 @@ For the second round of training we added ~500 demos, we collected more but were
 
 <p align="center">
   <img src="images/lemon-sofa-success.gif" height="240px"/>
-  <img src="images/lemon-desk-slowstart-failure.gif" height="240px"/>
+  <img src="images/lime-sofa-release-failure.gif" height="240px"/>
   <img src="images/lime-desk-success.gif" height="240px"/>
   <img src="images/lemon-desk-slowstart-failure.gif" height="240px"/>
 </p>
 
 
-We see thjat the first rollout is a success, the second rollout demonstrates the failed to release failure mode, the third rollout is a success with some slow start behavior, and the fourth one shows a slow start behavior and also a failed to release. All vidoe are 2x speed up.
+We see that the first rollout is a success, the second rollout demonstrates the failed to release failure mode, the third rollout is a success with some slow start behavior, and the fourth one shows a slow start behavior and also a failed to release. All vidoe are 2x speed up.
 
 ## Lemon/Lime Sorting with Labeled Bowls *(Jaron)*
 ### Idea
