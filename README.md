@@ -54,7 +54,12 @@ Our first training involved around 1.5k demos, however that seems to not be enou
 
 For the second round of training we added ~500 demos, we collected more but weren't able to use all of it because of data consistency worries. The larger dataset now contain mostly plates, and the demos are now more conscious of object occlusion. The policy is much better, below are tests performed on two different table, with plates not seen before (though the demo does contain white plates). The success rate for sorting alone is around 50% or higher, and the main failure mode is a failure to release lemon/lime at the plate. We also notice the curious behavior of a "slow start" where the stretch robot moves minutely in the first few steps, and then seemingly finding it's target, moves quickly and confidently. This slow start does not seem to correlate with policy success rate, although the test video below shows a failure case.
 
+<p align="center">
 
+  <video src="(https://github.com/user-attachments/assets/9f2a9d6d-9879-4be7-b38a-7bbb993bca26)" height="240px"/>
+  <video src="(https://github.com/user-attachments/assets/452a97bf-8758-4eb6-bc6a-37d8e23263ff)" height="240px"/>
+  <video src="(https://github.com/user-attachments/assets/b9bbd323-4a52-4bd0-ae49-6ef6d9124436)" height="240px"/>
+  <video src="(https://github.com/user-attachments/assets/0efc96fe-6671-4525-a734-d595a0f61f96)" height="240px"/>
 
 https://github.com/user-attachments/assets/9f2a9d6d-9879-4be7-b38a-7bbb993bca26
 
@@ -64,6 +69,7 @@ https://github.com/user-attachments/assets/b9bbd323-4a52-4bd0-ae49-6ef6d9124436
 
 https://github.com/user-attachments/assets/0efc96fe-6671-4525-a734-d595a0f61f96
 
+</p>
 
 
 We see thjat the first rollout is a success, the second rollout demonstrates the failed to release failure mode, the third rollout is a success with some slow start behavior, and the fourth one shows a slow start behavior and also a failed to release. All vidoe are 2x speed up.
